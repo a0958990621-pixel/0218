@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>給 曾☁️💗 的故事書</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500&display=swap');
 
         :root { 
             --primary: #b08968; 
@@ -19,7 +19,6 @@
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
             background: var(--bg); 
-            /* 使用現代質感黑體 */
             font-family: "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif; 
             overflow: hidden; 
             color: var(--text);
@@ -41,15 +40,12 @@
             padding: 15px; font-size: 18px; text-align: center; 
             border: 1.5px solid #eee; border-radius: 12px; 
             outline: none; width: 240px; letter-spacing: 4px;
-            font-family: inherit;
         }
         .login-btn {
             margin-top: 25px; background: var(--primary); color: white;
-            border: none; padding: 12px 40px; border-radius: 12px; 
-            cursor: pointer; font-size: 16px; letter-spacing: 2px;
-            transition: 0.3s;
+            border: none; padding: 12px 40px; border-radius: 12px; cursor: pointer;
+            font-size: 16px; letter-spacing: 2px;
         }
-        .login-btn:hover { background: #8d6e52; }
 
         /* --- 翻頁書容器 --- */
         .book { position: relative; width: 100%; height: 100vh; perspective: 2500px; display: none; }
@@ -61,7 +57,7 @@
         }
         .page.flipped { transform: rotateY(-180deg); z-index: 0 !important; }
 
-        /* --- 拍立得框 --- */
+        /* --- 拍立得樣式 --- */
         .polaroid { 
             background: var(--polaroid);
             padding: 12px 12px 60px 12px; 
@@ -73,7 +69,6 @@
             border: 1px solid rgba(0,0,0,0.03);
         }
 
-        /* 裝飾膠帶 */
         .polaroid::before {
             content: "";
             position: absolute; top: -12px; left: 50%;
@@ -85,10 +80,9 @@
             z-index: 10;
         }
 
-        /* 維持原始比例 */
         .media-inner { 
             width: 100%; 
-            background: #f9f9f9; 
+            background: #f0f0f0; 
             overflow: hidden; 
             display: flex;
             justify-content: center;
@@ -105,7 +99,6 @@
             object-fit: contain; 
         }
 
-        /* 中文質感黑體標籤 */
         .caption-tag { 
             position: absolute;
             bottom: 20px;
@@ -114,31 +107,26 @@
             font-size: 15px;
             font-weight: 500;
             color: #666;
-            letter-spacing: 4px; /* 增加字距提升氣質 */
+            letter-spacing: 3px;
             white-space: nowrap;
         }
 
         .date-label { 
             font-family: 'Noto Serif TC', serif; font-weight: 700; 
             font-size: 1.2rem; color: var(--primary); margin-bottom: 25px;
-            letter-spacing: 1px;
         }
 
-        /* 導覽按鈕 */
         .nav-controls { position: fixed; bottom: 30px; width: 100%; display: flex; justify-content: center; gap: 40px; z-index: 1000; transition: 0.5s; }
-        .btn { background: rgba(255,255,255,0.9); color: var(--primary); border: 1px solid var(--accent); padding: 10px 25px; border-radius: 20px; cursor: pointer; font-size: 14px; letter-spacing: 2px; transition: 0.3s; }
-        .btn:hover { background: var(--primary); color: white; }
-        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn { background: rgba(255,255,255,0.9); color: var(--primary); border: 1px solid var(--accent); padding: 10px 25px; border-radius: 20px; cursor: pointer; font-size: 14px; }
 
-        /* 告白信 */
         #letter { 
             display: none; background: white; padding: 40px; 
-            border-radius: 15px; text-align: left; margin-top: 20px; opacity: 0; transition: 2s; 
+            border-radius: 10px; text-align: left; margin-top: 20px; opacity: 0; transition: 2s; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             max-width: 450px;
             border-left: 5px solid var(--accent);
         }
-        #letter p { margin-bottom: 15px; opacity: 0; transition: 1.5s; font-family: 'Noto Serif TC', serif; line-height: 1.8; font-size: 17px; }
+        #letter p { margin-bottom: 15px; opacity: 0; transition: 1.5s; font-family: 'Noto Serif TC', serif; line-height: 1.8; }
         .show-p { opacity: 1 !important; transform: translateY(0) !important; }
 
         .call-card {
@@ -154,7 +142,7 @@
     <div id="login-overlay">
         <div class="login-box">
             <h2 style="color:var(--primary); font-family: 'Noto Serif TC', serif; font-weight: 700;">🔒 我們的回憶相簿</h2>
-            <input type="password" id="pwd" maxlength="8" placeholder="輸入在一起的那天"><br>
+            <input type="password" id="pwd" maxlength="8" placeholder="在一起的那天 YYYYMMDD"><br>
             <button class="login-btn" onclick="checkPwd()">開啟回憶</button>
         </div>
     </div>
@@ -164,7 +152,11 @@
         <div class="page" style="z-index: 30;">
             <div class="date-label">2024年10月08日</div>
             <div class="polaroid">
-                <div class="media-inner"><video class="page-video" controls playsinline><source src="面試.mp4"></video></div>
+                <div class="media-inner">
+                    <video class="page-video" autoplay muted loop playsinline webkit-playsinline preload="metadata">
+                        <source src="面試.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <div class="caption-tag">初次見面</div>
             </div>
         </div>
@@ -188,7 +180,11 @@
         <div class="page" style="z-index: 27;">
             <div class="date-label">2025年01月24日</div>
             <div class="polaroid">
-                <div class="media-inner"><video class="page-video" controls playsinline><source src="0124.mp4"></video></div>
+                <div class="media-inner">
+                    <video class="page-video" autoplay muted loop playsinline webkit-playsinline preload="metadata">
+                        <source src="0124.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <div class="caption-tag">徹底暈船了</div>
             </div>
         </div>
@@ -196,7 +192,11 @@
         <div class="page" style="z-index: 26;">
             <div class="date-label">2025年01月31日</div>
             <div class="polaroid" style="transform: rotate(-1.5deg);">
-                <div class="media-inner"><video class="page-video" controls playsinline><source src="0131.mp4"></video></div>
+                <div class="media-inner">
+                    <video class="page-video" autoplay muted loop playsinline webkit-playsinline preload="metadata">
+                        <source src="0131.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <div class="caption-tag">第一次出遊跳早操</div>
             </div>
         </div>
@@ -204,7 +204,11 @@
         <div class="page" style="z-index: 25;">
             <div class="date-label">2025年02月03日</div>
             <div class="polaroid">
-                <div class="media-inner"><video class="page-video" controls playsinline><source src="0203.mp4"></video></div>
+                <div class="media-inner">
+                    <video class="page-video" autoplay muted loop playsinline webkit-playsinline preload="metadata">
+                        <source src="0203.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <div class="caption-tag">愛情的大壞蛋</div>
             </div>
         </div>
@@ -212,7 +216,11 @@
         <div class="page" style="z-index: 24;">
             <div class="date-label">2025年02月08日</div>
             <div class="polaroid" style="transform: rotate(2deg);">
-                <div class="media-inner"><video class="page-video" controls playsinline><source src="0208.mp4"></video></div>
+                <div class="media-inner">
+                    <video class="page-video" autoplay muted loop playsinline webkit-playsinline preload="metadata">
+                        <source src="0208.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <div class="caption-tag">雲林玩又撞到頭</div>
             </div>
         </div>
@@ -220,7 +228,11 @@
         <div class="page" style="z-index: 23;">
             <div class="date-label">2025年02月10日</div>
             <div class="polaroid">
-                <div class="media-inner"><video class="page-video" controls playsinline><source src="0210.mp4"></video></div>
+                <div class="media-inner">
+                    <video class="page-video" autoplay muted loop playsinline webkit-playsinline preload="metadata">
+                        <source src="0210.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <div class="caption-tag">笑笑羊生日禮物</div>
             </div>
         </div>
@@ -228,7 +240,11 @@
         <div class="page" style="z-index: 22;">
             <div class="date-label">2025年02月12日</div>
             <div class="polaroid" style="transform: rotate(-2deg);">
-                <div class="media-inner"><video class="page-video" controls playsinline><source src="0212.mp4"></video></div>
+                <div class="media-inner">
+                    <video class="page-video" autoplay muted loop playsinline webkit-playsinline preload="metadata">
+                        <source src="0212.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <div class="caption-tag">偷偷餵地瓜球</div>
             </div>
         </div>
@@ -236,7 +252,11 @@
         <div class="page" style="z-index: 21;">
             <div class="date-label">2025年02月21日</div>
             <div class="polaroid">
-                <div class="media-inner"><video class="page-video" controls playsinline><source src="0221.mp4"></video></div>
+                <div class="media-inner">
+                    <video class="page-video" autoplay muted loop playsinline webkit-playsinline preload="metadata">
+                        <source src="0221.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <div class="caption-tag">大巨蛋突擊</div>
             </div>
         </div>
@@ -284,7 +304,7 @@
         <div class="page" style="z-index: 15;">
             <div class="date-label">2025年04月24日</div>
             <div class="call-card">
-                <div style="font-size:24px; font-weight: 500; letter-spacing: 1px;">曾☁️💗</div>
+                <div style="font-size:24px; font-weight: 500;">曾☁️💗</div>
                 <div style="font-size:12px; color:#888; margin-bottom:25px;">凌晨 03:14</div>
                 <p style="font-style:italic; color:var(--accent); font-size:22px; font-family: 'Noto Serif TC', serif;">「最後，我們在一起了。」</p>
             </div>
@@ -294,12 +314,12 @@
             <div class="date-label">2025年04月26日</div>
             <div id="flower-zone" onclick="startFinal()" style="cursor:pointer; text-align:center;">
                 <div style="font-size:80px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));">💐</div>
-                <p style="color:var(--primary); margin-top: 20px; font-weight: 500; letter-spacing: 2px;">收下花，看最後的心意</p>
+                <p style="color:var(--primary); margin-top: 20px; font-weight: 500;">收下花，看最後的心意</p>
             </div>
             <div id="letter">
-                <p style="font-weight: 700; color: var(--primary); font-size: 1.15rem;">「我發現這個人真的是我的100分女孩。」</p>
+                <p style="font-weight: 700; color: var(--primary); font-size: 1.1rem;">「我發現這個人真的是我的100分女孩。」</p>
                 <p>妳做的這個決定，我不會讓妳後悔。</p>
-                <p style="color:#e63946; font-size:1.6em; font-weight:bold; margin-top:20px !important; letter-spacing: 2px;">我愛妳，曾☁️💗</p>
+                <p style="color:#e63946; font-size:1.6em; font-weight:bold; margin-top:20px !important;">我愛妳，曾☁️💗</p>
             </div>
         </div>
 
@@ -317,7 +337,7 @@
 
         function checkPwd() {
             if (document.getElementById('pwd').value === '20250424') {
-                m1.play().catch(e => console.log("音檔播放受限"));
+                m1.play().catch(e => console.log("音檔受限"));
                 document.getElementById('login-overlay').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = 'none';
