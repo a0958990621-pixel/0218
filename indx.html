@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>給 曾☁️💗 的故事書</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap');
+
+        :root { 
+            --primary: #b08968; 
+            --accent: #e6beae;
+            --bg: #fdfaf7; 
+            --text: #4a4a4a;
+            --polaroid: #ffffff;
+        }
+
+        * { box-sizing: border-box; }
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            background: var(--bg); 
+            /* 使用現代質感黑體 */
+            font-family: "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif; 
+            overflow: hidden; 
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- 登入層 --- */
+        #login-overlay { 
+            position: fixed; inset: 0; background: var(--bg); 
+            display: flex; justify-content: center; align-items: center; 
+            z-index: 3000; transition: 1.5s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        .login-box { 
+            text-align: center; background: white; 
+            padding: 50px; border-radius: 30px; 
+            box-shadow: 0 20px 50px rgba(176, 137, 104, 0.15);
+        }
+        #pwd { 
+            padding: 15px; font-size: 18px; text-align: center; 
+            border: 1.5px solid #eee; border-radius: 12px; 
+            outline: none; width: 240px; letter-spacing: 4px;
+            font-family: inherit;
+        }
+        .login-btn {
+            margin-top: 25px; background: var(--primary); color: white;
+            border: none; padding: 12px 40px; border-radius: 12px; 
+            cursor: pointer; font-size: 16px; letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .login-btn:hover { background: #8d6e52; }
+
+        /* --- 翻頁書容器 --- */
+        .book { position: relative; width: 100%; height: 100vh; perspective: 2500px; display: none; }
+        .page {
+            position: absolute; width: 100%; height: 100%; top: 0; left: 0; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            padding: 30px; background: var(--bg); transition: 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transform-origin: left center; backface-visibility: hidden; 
+        }
+        .page.flipped { transform: rotateY(-180deg); z-index: 0 !important; }
+
+        /* --- 拍立得框 --- */
+        .polaroid { 
+            background: var(--polaroid);
+            padding: 12px 12px 60px 12px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transform: rotate(-1.5deg);
+            max-width: 90%;
+            width: 380px;
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        /* 裝飾膠帶 */
+        .polaroid::before {
+            content: "";
+            position: absolute; top: -12px; left: 50%;
+            transform: translateX(-50%);
+            width: 90px; height: 25px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+
+        /* 維持原始比例 */
+        .media-inner { 
+            width: 100%; 
+            background: #f9f9f9; 
+            overflow: hidden; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 250px;
+        }
+
+        video, img { 
+            max-width: 100%; 
+            max-height: 60vh; 
+            height: auto; 
+            width: auto;
+            display: block; 
+            object-fit: contain; 
+        }
+
+        /* 中文質感黑體標籤 */
+        .caption-tag { 
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 15px;
+            font-weight: 500;
+            color: #666;
+            letter-spacing: 4px; /* 增加字距提升氣質 */
+            white-space: nowrap;
+        }
+
+        .date-label { 
+            font-family: 'Noto Serif TC', serif; font-weight: 700; 
+            font-size: 1.2rem; color: var(--primary); margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        /* 導覽按鈕 */
+        .nav-controls { position: fixed; bottom: 30px; width: 100%; display: flex; justify-content: center; gap: 40px; z-index: 1000; transition: 0.5s; }
+        .btn { background: rgba(255,255,255,0.9); color: var(--primary); border: 1px solid var(--accent); padding: 10px 25px; border-radius: 20px; cursor: pointer; font-size: 14px; letter-spacing: 2px; transition: 0.3s; }
+        .btn:hover { background: var(--primary); color: white; }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        /* 告白信 */
+        #letter { 
+            display: none; background: white; padding: 40px; 
+            border-radius: 15px; text-align: left; margin-top: 20px; opacity: 0; transition: 2s; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 450px;
+            border-left: 5px solid var(--accent);
+        }
+        #letter p { margin-bottom: 15px; opacity: 0; transition: 1.5s; font-family: 'Noto Serif TC', serif; line-height: 1.8; font-size: 17px; }
+        .show-p { opacity: 1 !important; transform: translateY(0) !important; }
+
+        .call-card {
+            background: #1a1a1a; color: white; padding: 45px 30px; border-radius: 50px; text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="music-1" loop preload="auto"><source src="Anti-Romantic.mp3"></audio>
+    <audio id="music-2" loop preload="auto"><source src="五月天-為你寫下這首情歌.mp3"></audio>
+
+    <div id="login-overlay">
+        <div class="login-box">
+            <h2 style="color:var(--primary); font-family: 'Noto Serif TC', serif; font-weight: 700;">🔒 我們的回憶相簿</h2>
+            <input type="password" id="pwd" maxlength="8" placeholder="輸入在一起的那天"><br>
+            <button class="login-btn" onclick="checkPwd()">開啟回憶</button>
+        </div>
+    </div>
+
+    <div class="book" id="myBook">
+        
+        <div class="page" style="z-index: 30;">
+            <div class="date-label">2024年10月08日</div>
+            <div class="polaroid">
+                <div class="media-inner"><video class="page-video" controls playsinline><source src="面試.mp4"></video></div>
+                <div class="caption-tag">初次見面</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 29;">
+            <div class="date-label">2025年01月17日</div>
+            <div class="polaroid" style="transform: rotate(1deg);">
+                <div class="media-inner"><img src="0117.jpg"></div>
+                <div class="caption-tag">第一張合照</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 28;">
+            <div class="date-label">2025年01月23日</div>
+            <div class="polaroid" style="transform: rotate(-2deg);">
+                <div class="media-inner"><img src="0123.jpg"></div>
+                <div class="caption-tag">跌倒的那天</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 27;">
+            <div class="date-label">2025年01月24日</div>
+            <div class="polaroid">
+                <div class="media-inner"><video class="page-video" controls playsinline><source src="0124.mp4"></video></div>
+                <div class="caption-tag">徹底暈船了</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 26;">
+            <div class="date-label">2025年01月31日</div>
+            <div class="polaroid" style="transform: rotate(-1.5deg);">
+                <div class="media-inner"><video class="page-video" controls playsinline><source src="0131.mp4"></video></div>
+                <div class="caption-tag">第一次出遊跳早操</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 25;">
+            <div class="date-label">2025年02月03日</div>
+            <div class="polaroid">
+                <div class="media-inner"><video class="page-video" controls playsinline><source src="0203.mp4"></video></div>
+                <div class="caption-tag">愛情的大壞蛋</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 24;">
+            <div class="date-label">2025年02月08日</div>
+            <div class="polaroid" style="transform: rotate(2deg);">
+                <div class="media-inner"><video class="page-video" controls playsinline><source src="0208.mp4"></video></div>
+                <div class="caption-tag">雲林玩又撞到頭</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 23;">
+            <div class="date-label">2025年02月10日</div>
+            <div class="polaroid">
+                <div class="media-inner"><video class="page-video" controls playsinline><source src="0210.mp4"></video></div>
+                <div class="caption-tag">笑笑羊生日禮物</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 22;">
+            <div class="date-label">2025年02月12日</div>
+            <div class="polaroid" style="transform: rotate(-2deg);">
+                <div class="media-inner"><video class="page-video" controls playsinline><source src="0212.mp4"></video></div>
+                <div class="caption-tag">偷偷餵地瓜球</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 21;">
+            <div class="date-label">2025年02月21日</div>
+            <div class="polaroid">
+                <div class="media-inner"><video class="page-video" controls playsinline><source src="0221.mp4"></video></div>
+                <div class="caption-tag">大巨蛋突擊</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 20;">
+            <div class="date-label">2025年02月25日</div>
+            <div class="polaroid" style="transform: rotate(1.5deg);">
+                <div class="media-inner"><img src="0225.jpg"></div>
+                <div class="caption-tag">贏球的那一刻</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 19;">
+            <div class="date-label">2025年03月08日</div>
+            <div class="polaroid">
+                <div class="media-inner"><img src="0308.jpg"></div>
+                <div class="caption-tag">基隆看海</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 18;">
+            <div class="date-label">2025年04月02日</div>
+            <div class="polaroid" style="transform: rotate(-1deg);">
+                <div class="media-inner"><img src="0402.jpg"></div>
+                <div class="caption-tag">台灣祭的遺憾</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 17;">
+            <div class="date-label">2025年04月19日</div>
+            <div class="polaroid">
+                <div class="media-inner"><img src="0419.jpg"></div>
+                <div class="caption-tag">淨灘的好曖昧</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 16;">
+            <div class="date-label">2025年04月21日</div>
+            <div class="polaroid" style="transform: rotate(1deg);">
+                <div class="media-inner"><img src="0421.jpg"></div>
+                <div class="caption-tag">陪我完成重要時刻</div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 15;">
+            <div class="date-label">2025年04月24日</div>
+            <div class="call-card">
+                <div style="font-size:24px; font-weight: 500; letter-spacing: 1px;">曾☁️💗</div>
+                <div style="font-size:12px; color:#888; margin-bottom:25px;">凌晨 03:14</div>
+                <p style="font-style:italic; color:var(--accent); font-size:22px; font-family: 'Noto Serif TC', serif;">「最後，我們在一起了。」</p>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 14;">
+            <div class="date-label">2025年04月26日</div>
+            <div id="flower-zone" onclick="startFinal()" style="cursor:pointer; text-align:center;">
+                <div style="font-size:80px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));">💐</div>
+                <p style="color:var(--primary); margin-top: 20px; font-weight: 500; letter-spacing: 2px;">收下花，看最後的心意</p>
+            </div>
+            <div id="letter">
+                <p style="font-weight: 700; color: var(--primary); font-size: 1.15rem;">「我發現這個人真的是我的100分女孩。」</p>
+                <p>妳做的這個決定，我不會讓妳後悔。</p>
+                <p style="color:#e63946; font-size:1.6em; font-weight:bold; margin-top:20px !important; letter-spacing: 2px;">我愛妳，曾☁️💗</p>
+            </div>
+        </div>
+
+        <div class="nav-controls" id="navControls">
+            <button class="btn" id="prevBtn" onclick="prevPage()" disabled>上一頁</button>
+            <button class="btn" id="nextBtn" onclick="nextPage()">下一頁</button>
+        </div>
+    </div>
+
+    <script>
+        let curr = 0;
+        const pages = document.querySelectorAll('.page');
+        const m1 = document.getElementById('music-1');
+        const m2 = document.getElementById('music-2');
+
+        function checkPwd() {
+            if (document.getElementById('pwd').value === '20250424') {
+                m1.play().catch(e => console.log("音檔播放受限"));
+                document.getElementById('login-overlay').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('login-overlay').style.display = 'none';
+                    document.getElementById('myBook').style.display = 'block';
+                }, 1000);
+            }
+        }
+
+        function stopAllVideos() {
+            document.querySelectorAll('.page-video').forEach(v => { v.pause(); v.currentTime = 0; });
+        }
+
+        function nextPage() {
+            if (curr < pages.length - 1) {
+                stopAllVideos();
+                pages[curr].classList.add('flipped');
+                curr++;
+                updateButtons();
+            }
+        }
+
+        function prevPage() {
+            if (curr > 0) {
+                stopAllVideos();
+                curr--;
+                pages[curr].classList.remove('flipped');
+                updateButtons();
+            }
+        }
+
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = (curr === 0);
+            document.getElementById('nextBtn').disabled = (curr === pages.length - 1);
+            const nav = document.getElementById('navControls');
+            if (curr === pages.length - 1) {
+                nav.style.opacity = '0';
+                setTimeout(() => { nav.style.display = 'none'; }, 500);
+            } else {
+                nav.style.display = 'flex';
+                setTimeout(() => { nav.style.opacity = '1'; }, 10);
+            }
+        }
+
+        function startFinal() {
+            m1.pause(); m2.play();
+            document.getElementById('flower-zone').style.display = 'none';
+            const lt = document.getElementById('letter');
+            lt.style.display = 'block';
+            setTimeout(() => { lt.style.opacity = '1'; }, 100);
+            const ps = lt.querySelectorAll('p');
+            ps.forEach((p, i) => { setTimeout(() => p.classList.add('show-p'), i * 2000); });
+        }
+    </script>
+</body>
+</html>
