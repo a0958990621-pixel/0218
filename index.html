@@ -67,6 +67,11 @@
             box-shadow: 5px 15px 45px rgba(0,0,0,0.08); transform: rotate(-1.5deg);
             max-width: 95%; width: 360px; position: relative; border: 1px solid rgba(0,0,0,0.02);
         }
+        .polaroid::before {
+            content: ""; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 30px; background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(3px); border: 1px solid rgba(0,0,0,0.03); z-index: 10;
+        }
         .media-inner { width: 100%; background: #fcfcfc; overflow: hidden; display: flex; justify-content: center; align-items: center; min-height: 250px; }
         video, img { max-width: 100%; max-height: 55vh; object-fit: contain; display: block; }
         .caption-tag { position: absolute; bottom: 28px; left: 0; width: 100%; text-align: center; font-size: 16px; color: #777; letter-spacing: 5px; font-weight: 500;}
@@ -75,6 +80,7 @@
         /* 導覽按鈕 */
         .nav-controls { position: fixed; bottom: 40px; width: 100%; display: flex; justify-content: center; gap: 30px; z-index: 1000; }
         .btn { background: white; color: var(--primary); border: 1px solid var(--accent); padding: 10px 30px; border-radius: 50px; cursor: pointer; font-size: 14px; letter-spacing: 2px; transition: 0.3s; }
+        .btn:hover:not(:disabled) { background: var(--primary); color: white; transform: translateY(-2px); }
         .btn:disabled { opacity: 0; pointer-events: none; }
 
         /* YouTube 影片層 */
@@ -165,30 +171,41 @@
         const pages = document.querySelectorAll('.page');
         const m1 = document.getElementById('music-1');
         const m2 = document.getElementById('music-2');
+        const pageVideos = document.querySelectorAll('.page-video');
         const youtubeVideoId = "e4bQwcrrN9A"; 
-
-        // 判斷是否為手機
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
+        // 初始化：停止所有分頁影片並加上監聽
+        function stopAllPageVideos() {
+            pageVideos.forEach(v => {
+                v.pause();
+                v.currentTime = 0; // 回到開頭，避免翻回來時卡在中間
+            });
+        }
+
+        pageVideos.forEach(video => {
+            video.onplay = () => { if (isMobile) m1.pause(); };
+            video.onpause = video.onended = () => {
+                if (isMobile && curr < pages.length - 1) {
+                    m1.play().catch(e => console.log("恢復音樂受限"));
+                }
+            };
+        });
+
         function checkPwd() {
-            const input = document.getElementById('pwd').value;
-            if (input === '20250424') {
-                m1.play().catch(e => console.log("音樂播放受限"));
-                const overlay = document.getElementById('login-overlay');
-                overlay.style.opacity = '0';
+            if (document.getElementById('pwd').value === '20250424') {
+                m1.play().catch(e => console.log("音樂受限"));
+                document.getElementById('login-overlay').style.opacity = '0';
                 setTimeout(() => {
-                    overlay.style.display = 'none';
+                    document.getElementById('login-overlay').style.display = 'none';
                     document.getElementById('myBook').style.display = 'block';
                 }, 1000);
-            } else { alert("密碼不對喔，再想想看？"); }
+            } else { alert("密碼不對喔！"); }
         }
 
         function nextPage() {
             if (curr < pages.length - 1) {
-                // 只有手機版翻頁時才暫停影片，電腦版讓它繼續放也沒關係
-                if (isMobile) {
-                    document.querySelectorAll('.page-video').forEach(v => v.pause());
-                }
+                stopAllPageVideos(); // 【關鍵修正】翻頁即停止所有影片
                 pages[curr].classList.add('flipped');
                 curr++;
                 updateButtons();
@@ -197,9 +214,7 @@
 
         function prevPage() {
             if (curr > 0) {
-                if (isMobile) {
-                    document.querySelectorAll('.page-video').forEach(v => v.pause());
-                }
+                stopAllPageVideos(); // 【關鍵修正】翻回上一頁也停止影片
                 curr--;
                 pages[curr].classList.remove('flipped');
                 updateButtons();
@@ -212,20 +227,7 @@
             if (curr === pages.length - 1) document.getElementById('navControls').style.display = 'none';
         }
 
-        // 當分頁影片播放時，只有手機版才需要暫停音樂
-        document.querySelectorAll('.page-video').forEach(video => {
-            video.onplay = () => {
-                if (isMobile) m1.pause();
-            };
-            video.onpause = video.onended = () => {
-                if (isMobile && curr < pages.length - 1) {
-                    m1.play().catch(e => console.log("恢復受限"));
-                }
-            };
-        });
-
         function playSurpriseVideo() {
-            // 驚喜影片因為音量通常較大，建議電腦版也暫停音樂 1
             m1.pause();
             const container = document.getElementById('final-video-container');
             const wrapper = document.getElementById('video-wrapper');
@@ -245,7 +247,7 @@
         }
 
         function showLetter() {
-            m2.play().catch(e => console.log("音樂 2 播放受限"));
+            m2.play().catch(e => console.log("音樂 2 受限"));
             document.getElementById('flower-zone').style.display = 'none';
             const lt = document.getElementById('letter');
             lt.style.display = 'block';
@@ -255,7 +257,7 @@
         }
 
         document.getElementById('pwd').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') { checkPwd(); }
+            if (e.key === 'Enter') checkPwd();
         });
     </script>
 </body>
