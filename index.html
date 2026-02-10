@@ -39,7 +39,7 @@
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .close-video { position: absolute; top: 40px; right: 20px; color: white; font-size: 40px; cursor: pointer; z-index: 9501; width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; }
         
-        .day-counter-card { background: white; padding: 30px; border-radius: 30px; text-align: center; box-shadow: 0 20px 50px rgba(176, 137, 104, 0.1); width: 85%; max-width: 320px; }
+        .day-counter-card { background: white; padding: 30px; border-radius: 30px; text-align: center; box-shadow: 0 20px 50px rgba(176,137,104,0.1); width: 85%; max-width: 320px; }
         .day-number { font-size: 60px; font-weight: 700; color: var(--soft-red); font-family: 'Noto Serif TC', serif; margin: 10px 0; display: block; }
         #letter { display: none; background: white; padding: 50px 40px; border-radius: 20px; opacity: 0; max-width: 400px; border-left: 8px solid var(--accent); }
         #letter p { margin-bottom: 22px; opacity: 0; transform: translateY(12px); transition: 1.5s; font-family: 'Noto Serif TC', serif; line-height: 2; font-size: 20px; }
@@ -136,7 +136,7 @@
         </div>
         <div class="page after-love-content" style="--z: 1;">
             <div id="letter">
-                <p style="font-weight: 700; color: var(--primary); font-size: 24px;">「致我的 100 分女孩。」</p>
+                <p style="font-weight: 700; color: var(--primary); font-size: 24px;">「至我的 100 分女孩。」</p>
                 <p>雖然我可能不是你喜歡的帥哥</p>
                 <p>但我會用盡全力對妳好的</p>
                 <p>未來我們一定會一起<br>創造更多美好的故事！</p>
@@ -153,24 +153,47 @@
         let bookStarted = false, isStoryUnlocked = false;
 
         function reveal(overlay) { overlay.classList.add('revealed'); }
-        function wakeUpAudio() { 
-            if (!bookStarted) return; 
-            const targetMusic = isStoryUnlocked ? m2 : m1;
-            if (targetMusic.paused) targetMusic.play().catch(()=>{}); 
+        function wakeUpAudio() { if (!bookStarted) return; (isStoryUnlocked ? m2 : m1).play().catch(()=>{}); }
+        
+        document.querySelectorAll('.page-video').forEach(v => {
+            v.onplay = () => { if(window.innerWidth > 768) { m1.volume = 0.2; m2.volume = 0.2; } };
+            v.onpause = v.onended = () => { m1.volume = 1; m2.volume = 1; wakeUpAudio(); };
+        });
+
+        // --- 強效天數計算函式 ---
+        function runAnimateDays() {
+            const targetEl = document.getElementById('days-val');
+            // 明確指定起始日期與今天日期
+            const startDate = new Date("2025/04/24");
+            const today = new Date();
+            
+            // 計算毫秒差並轉為天數
+            const diffTime = today.getTime() - startDate.getTime();
+            const targetDays = Math.floor(diffTime / (1000 * 3600 * 24));
+            
+            let currentCount = 0;
+            targetEl.innerText = "0";
+            
+            const timer = setInterval(() => {
+                // 動態步長，增加動畫流暢感
+                const step = Math.ceil(targetDays / 40);
+                currentCount += step;
+                
+                if (currentCount >= targetDays) {
+                    targetEl.innerText = targetDays;
+                    clearInterval(timer);
+                } else {
+                    targetEl.innerText = currentCount;
+                }
+            }, 30);
         }
 
-        // --- 優化：智慧資源管理 ---
+        // 智慧資源管理
         function loadVideo(index) {
             const v = pages[index].querySelector('.page-video');
-            if(v) { 
-                if(!v.src || v.src === "") { v.src = v.getAttribute('data-src'); v.load(); }
-                v.onended = v.onpause = wakeUpAudio; 
-            }
+            if(v) { if(!v.src || v.src === "") { v.src = v.getAttribute('data-src'); v.load(); } v.onended = v.onpause = wakeUpAudio; }
         }
-        function pauseVideo(index) {
-            const v = pages[index].querySelector('.page-video');
-            if(v) v.pause();
-        }
+        function pauseVideo(index) { const v = pages[index].querySelector('.page-video'); if(v) v.pause(); }
 
         function checkPwd() {
             if (document.getElementById('pwd').value === '20250424') {
@@ -191,12 +214,13 @@
 
         function nextPage() {
             if (curr < pages.length - 1) {
-                pauseVideo(curr); // 暫停前一頁影片釋放效能
+                pauseVideo(curr);
                 pages[curr].classList.add('flipped');
                 curr++;
-                loadVideo(curr); // 載入新頁面影片
+                loadVideo(curr);
                 updateButtons(); wakeUpAudio();
-                if (pages[curr].id === "day-counter-page") animateDays();
+                // 翻到計天數頁面時觸發計算
+                if (pages[curr].id === "day-counter-page") runAnimateDays();
                 if (curr === pages.length - 1) showLetter();
             }
         }
@@ -206,14 +230,14 @@
                 pauseVideo(curr);
                 curr--;
                 pages[curr].classList.remove('flipped');
-                loadVideo(curr); // 重新載入上一頁影片路徑
+                loadVideo(curr);
                 updateButtons(); wakeUpAudio();
+                if (pages[curr].id === "day-counter-page") runAnimateDays();
             }
         }
 
         function playSurpriseVideo() {
-            // 播YT時暫停背景音樂
-            m1.pause(); 
+            m1.pause();
             document.getElementById('video-wrapper').innerHTML = `<iframe id="yt-frame" src="https://www.youtube.com/embed/e4bQwcrrN9A?autoplay=1&enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
             document.getElementById('final-video-container').style.display = 'flex';
             setTimeout(()=>document.getElementById('final-video-container').style.opacity = '1', 50);
@@ -229,20 +253,10 @@
                 document.getElementById('flower-main').style.display = "none";
                 document.getElementById('trigger-text').style.display = "none";
                 document.getElementById('after-video-ui').style.display = "block";
-                
-                // 關閉YT後恢復音樂並切換到五月天
-                m1.pause(); m1.currentTime = 0;
-                m2.play().catch(()=>{});
-                
+                m1.pause(); m1.currentTime = 0; m2.play().catch(()=>{});
                 document.querySelectorAll('.after-love-content').forEach(p=>p.style.display = 'flex');
                 updateButtons();
             }, 600);
-        }
-
-        function animateDays() {
-            const target = Math.floor((new Date().getTime() - new Date("2025-04-24").getTime()) / (1000 * 3600 * 24));
-            const display = document.getElementById('days-val'); let count = 0;
-            const timer = setInterval(() => { count += Math.ceil(target / 50); if (count >= target) { display.innerText = target; clearInterval(timer); } else display.innerText = count; }, 30);
         }
 
         function showLetter() {
