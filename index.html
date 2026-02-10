@@ -40,6 +40,7 @@
             border-bottom: 2.5px solid #eee; outline: none; width: 100%; letter-spacing: 8px;
             margin-top: 30px; transition: 0.3s;
         }
+        #pwd:focus { border-bottom-color: var(--accent); }
         .login-btn {
             margin-top: 40px; background: var(--primary); color: white; border: none; 
             padding: 16px 50px; border-radius: 50px; cursor: pointer; font-size: 18px; 
@@ -72,7 +73,6 @@
             display: flex; justify-content: center; align-items: center; min-height: 220px; 
         }
 
-        /* 質感刮刮樂遮罩 */
         .scratch-overlay {
             position: absolute; inset: 0; 
             background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
@@ -182,7 +182,7 @@
         <div class="page sweet-era after-love-content" style="--z: 128;"><div class="date-label">2025 / 10 / 03</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1003.jpg"></div><div class="caption-tag">去台南玩啊啊啊啊</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 127;"><div class="date-label">2025 / 10 / 11</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="1011.mp4"></video></div><div class="caption-tag">聽潮派鹿港芒果醬<br>一直上電視</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 126;"><div class="date-label">2025 / 10 / 12</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1012.jpg"></div><div class="caption-tag">我哭哭<br>閃光燈開不了</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 125;"><div class="date-label">2025 / 10 / 16</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="1016.mp4"></video></div><div class="caption-tag">跑了20家7-11買到惹<br>寶寶很開心嘿嘿</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 125;"><div class="date-label">2025 / 10 / 16</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="1016.mp4" type="video/mp4"></video></div><div class="caption-tag">跑了20家7-11買到惹<br>寶寶很開心嘿嘿</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 124;"><div class="date-label">2025 / 10 / 24</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1024.jpg"></div><div class="caption-tag">我們半年惹啊啊啊啊</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 123;"><div class="date-label">2025 / 11 / 29</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="1129.mp4"></video></div><div class="caption-tag">抽到啾啾<br>會不會太扯啦</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 122;"><div class="date-label">2025 / 12 / 24</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1224.jpg"></div><div class="caption-tag">跟寶寶的<br>第一個平安夜</div></div></div>
@@ -229,11 +229,10 @@
         const pageVideos = document.querySelectorAll('.page-video');
         const youtubeVideoId = "e4bQwcrrN9A"; 
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        let bookStarted = false;
 
         // --- 刮刮樂邏輯 ---
-        function reveal(overlay) {
-            overlay.classList.add('revealed');
-        }
+        function reveal(overlay) { overlay.classList.add('revealed'); }
 
         // --- 天數計算 ---
         function calculateDays() {
@@ -262,6 +261,7 @@
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = 'none';
                     document.getElementById('myBook').style.display = 'block';
+                    bookStarted = true;
                 }, 1000);
             } else { alert("密碼錯誤喔！"); }
         }
@@ -291,6 +291,21 @@
             document.getElementById('nextBtn').disabled = (curr === pages.length - 1);
             document.getElementById('nextBtn').style.display = (pages[curr].id === "trigger-page") ? "none" : "block";
         }
+
+        // --- 鍵盤控制邏輯 ---
+        window.addEventListener('keydown', (e) => {
+            if (!bookStarted) return; // 沒登入不給按
+            
+            // 排除影片解鎖頁（強迫用花解鎖）與最後一頁
+            const isTriggerPage = (pages[curr].id === "trigger-page");
+            
+            if ((e.key === "ArrowRight" || e.key === " ") && !isTriggerPage) {
+                e.preventDefault();
+                nextPage();
+            } else if (e.key === "ArrowLeft") {
+                prevPage();
+            }
+        });
 
         function playSurpriseVideo() {
             m1.pause();
