@@ -108,7 +108,7 @@
         <div class="page sweet-era after-love-content" style="--z: 78;"><div class="date-label">2025 / 07 / 05</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0705.mp4"></video></div><div class="caption-tag">第一次看五月天<br>完成我的夢想</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 77;"><div class="date-label">2025 / 08 / 08</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0808.jpg"></div><div class="caption-tag">寶寶陪我去洲際工作</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 76;"><div class="date-label">2025 / 08 / 15</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0815.mp4"></video></div><div class="caption-tag">突擊新竹運動中心<br>終於突襲到了嘿嘿嘿</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 75;"><div class="date-label">2025 / 08 / 17</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0817.mp4"></video></div><div class="caption-tag">一起去大甲工作<br>超累的</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 75;"><div class="date-label">2025 / 08 / 17</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0817.mp4"></source></video></div><div class="caption-tag">一起去大甲工作<br>超累的</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 74;"><div class="date-label">2025 / 08 / 27</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0827.mp4"></video></div><div class="caption-tag">跟好朋友們去宜蘭玩</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 73;"><div class="date-label">2025 / 09 / 12</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0912.jpg"></div><div class="caption-tag">去練車，寶寶摔車<br>看 96 分鐘看到哭哭</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 72;"><div class="date-label">2025 / 09 / 20</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0920.mp4"></video></div><div class="caption-tag">寶寶一起陪我去<br>大甲拍熱音社</div></div></div>
@@ -130,6 +130,7 @@
         <div class="page sweet-era after-love-content" style="--z: 56;"><div class="date-label">2026 / 01 / 29</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="20260129.jpg"></div><div class="caption-tag">終於熬過去了<br>寶寶載我回家嘿嘿</div></div></div>
 
         <div class="page sweet-era after-love-content" style="--z: 10;" id="day-counter-page">
+            <div class="date-label">Future</div>
             <div class="day-counter-card"><p>我們已經在一起</p><span id="days-val" class="day-number">0</span><p>DAYS</p></div>
             <p style="margin-top: 30px; color: #888; font-style: italic;">「每天睜開眼，愛妳又多了一天。」</p>
         </div>
@@ -180,7 +181,7 @@
                 document.querySelectorAll('.page-video').forEach(v=>{v.pause(); v.currentTime=0;});
                 pages[curr].classList.add('flipped'); curr++; updateButtons(); wakeUpAudio();
                 if (pages[curr].id === "day-counter-page") animateDays();
-                if (curr === pages.length - 1) { const lt = document.getElementById('letter'); lt.style.display = 'block'; setTimeout(()=>lt.style.opacity='1',10); lt.querySelectorAll('p').forEach((p,i)=>setTimeout(()=>p.classList.add('show-p'),i*2000)); }
+                if (curr === pages.length - 1) showLetter();
             }
         }
 
@@ -193,6 +194,7 @@
 
         function playSurpriseVideo() {
             m1.pause();
+            // --- 核心改動：加入監控 YouTube 暫停音樂 ---
             document.getElementById('video-wrapper').innerHTML = `<iframe src="https://www.youtube.com/embed/e4bQwcrrN9A?autoplay=1&enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
             document.getElementById('final-video-container').style.display = 'flex';
             setTimeout(()=>document.getElementById('final-video-container').style.opacity = '1', 50);
@@ -207,7 +209,11 @@
                 document.getElementById('flower-main').style.display = "none";
                 document.getElementById('trigger-text').style.display = "none";
                 document.getElementById('after-video-ui').style.display = "block";
-                m1.pause(); m2.play().catch(()=>{});
+                
+                // --- 核心改動：關閉影片後立刻啟動五月天音樂 ---
+                m1.pause(); m1.currentTime = 0;
+                m2.play().catch(()=>{});
+                
                 document.querySelectorAll('.after-love-content').forEach(p=>p.style.display = 'flex');
                 updateButtons();
             }, 600);
@@ -217,6 +223,12 @@
             const target = Math.floor((new Date().getTime() - new Date("2025-04-24").getTime()) / (1000 * 3600 * 24));
             const display = document.getElementById('days-val'); let count = 0;
             const timer = setInterval(() => { count += Math.ceil(target / 50); if (count >= target) { display.innerText = target; clearInterval(timer); } else display.innerText = count; }, 30);
+        }
+
+        function showLetter() {
+            const lt = document.getElementById('letter'); lt.style.display = 'block';
+            setTimeout(()=>lt.style.opacity='1',10);
+            lt.querySelectorAll('p').forEach((p,i)=>setTimeout(()=>p.classList.add('show-p'),i * 2000));
         }
 
         window.addEventListener('keydown', (e) => {
