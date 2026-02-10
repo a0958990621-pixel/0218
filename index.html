@@ -61,16 +61,11 @@
         }
         .page.flipped { transform: rotateY(-170deg) translateX(-50px); opacity: 0; pointer-events: none; }
 
-        /* --- 拍立得高級感 --- */
+        /* --- 拍立得樣式 --- */
         .polaroid { 
             background: var(--polaroid); padding: 14px 14px 75px 14px; 
             box-shadow: 5px 15px 45px rgba(0,0,0,0.08); transform: rotate(-1.5deg);
             max-width: 95%; width: 360px; position: relative; border: 1px solid rgba(0,0,0,0.02);
-        }
-        .polaroid::before {
-            content: ""; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            width: 100px; height: 30px; background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(3px); border: 1px solid rgba(0,0,0,0.03); z-index: 10;
         }
         .media-inner { width: 100%; background: #fcfcfc; overflow: hidden; display: flex; justify-content: center; align-items: center; min-height: 250px; }
         video, img { max-width: 100%; max-height: 55vh; object-fit: contain; display: block; }
@@ -141,7 +136,7 @@
             <div class="date-label">The Moment</div>
             <div class="call-card">
                 <div style="font-size:26px; font-weight: 500;">曾☁️💗</div>
-                <div style="font-size:12px; color:#888; margin-bottom:25px;">那一天 凌晨時分</div>
+                <div style="font-size:12px; color:#888; margin-bottom:25px;">2025/04/24 凌晨 03:14</div>
                 <p style="font-style:italic; color:var(--accent); font-size:22px; font-family: 'Noto Serif TC', serif; margin:0;">「最後，我們在一起了。」</p>
             </div>
         </div>
@@ -170,22 +165,10 @@
         const pages = document.querySelectorAll('.page');
         const m1 = document.getElementById('music-1');
         const m2 = document.getElementById('music-2');
-        const pageVideos = document.querySelectorAll('.page-video');
-
-        // YouTube 影片 ID
         const youtubeVideoId = "e4bQwcrrN9A"; 
 
-        // 核心修正：手機音軌自動切換邏輯
-        pageVideos.forEach(video => {
-            // 當分頁影片開始播，音樂1暫停
-            video.onplay = () => { m1.pause(); };
-            // 當分頁影片暫停或結束，音樂1恢復
-            video.onpause = video.onended = () => {
-                if (curr < pages.length - 1) { // 確保還沒到最後告白信
-                    m1.play().catch(e => console.log("音樂恢復受限"));
-                }
-            };
-        });
+        // 判斷是否為手機
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
         function checkPwd() {
             const input = document.getElementById('pwd').value;
@@ -202,8 +185,10 @@
 
         function nextPage() {
             if (curr < pages.length - 1) {
-                // 翻頁時強制暫停當前影片（觸發音樂恢復）
-                pageVideos.forEach(v => v.pause());
+                // 只有手機版翻頁時才暫停影片，電腦版讓它繼續放也沒關係
+                if (isMobile) {
+                    document.querySelectorAll('.page-video').forEach(v => v.pause());
+                }
                 pages[curr].classList.add('flipped');
                 curr++;
                 updateButtons();
@@ -212,7 +197,9 @@
 
         function prevPage() {
             if (curr > 0) {
-                pageVideos.forEach(v => v.pause());
+                if (isMobile) {
+                    document.querySelectorAll('.page-video').forEach(v => v.pause());
+                }
                 curr--;
                 pages[curr].classList.remove('flipped');
                 updateButtons();
@@ -225,7 +212,20 @@
             if (curr === pages.length - 1) document.getElementById('navControls').style.display = 'none';
         }
 
+        // 當分頁影片播放時，只有手機版才需要暫停音樂
+        document.querySelectorAll('.page-video').forEach(video => {
+            video.onplay = () => {
+                if (isMobile) m1.pause();
+            };
+            video.onpause = video.onended = () => {
+                if (isMobile && curr < pages.length - 1) {
+                    m1.play().catch(e => console.log("恢復受限"));
+                }
+            };
+        });
+
         function playSurpriseVideo() {
+            // 驚喜影片因為音量通常較大，建議電腦版也暫停音樂 1
             m1.pause();
             const container = document.getElementById('final-video-container');
             const wrapper = document.getElementById('video-wrapper');
@@ -245,7 +245,6 @@
         }
 
         function showLetter() {
-            m1.pause();
             m2.play().catch(e => console.log("音樂 2 播放受限"));
             document.getElementById('flower-zone').style.display = 'none';
             const lt = document.getElementById('letter');
