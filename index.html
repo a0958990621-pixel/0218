@@ -61,23 +61,18 @@
         }
         .page.flipped { transform: rotateY(-170deg) translateX(-50px); opacity: 0; pointer-events: none; }
 
-        /* --- 拍立得高級感 --- */
+        /* --- 拍立得樣式 --- */
         .polaroid { 
             background: var(--polaroid); padding: 14px 14px 75px 14px; 
             box-shadow: 5px 15px 45px rgba(0,0,0,0.08); transform: rotate(-1.5deg);
             max-width: 95%; width: 360px; position: relative; border: 1px solid rgba(0,0,0,0.02);
-        }
-        .polaroid::before {
-            content: ""; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            width: 100px; height: 30px; background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(3px); border: 1px solid rgba(0,0,0,0.03); z-index: 10;
         }
         .media-inner { width: 100%; background: #fcfcfc; overflow: hidden; display: flex; justify-content: center; align-items: center; min-height: 250px; }
         video, img { max-width: 100%; max-height: 55vh; object-fit: contain; display: block; }
         .caption-tag { position: absolute; bottom: 28px; left: 0; width: 100%; text-align: center; font-size: 16px; color: #777; letter-spacing: 5px; font-weight: 500;}
         .date-label { font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 1.3rem; color: var(--primary); margin-bottom: 35px; border-bottom: 1.5px solid var(--accent); padding-bottom: 5px; }
 
-        /* 導覽按鈕 */
+        /* 導覽 */
         .nav-controls { position: fixed; bottom: 40px; width: 100%; display: flex; justify-content: center; gap: 30px; z-index: 1000; }
         .btn { background: white; color: var(--primary); border: 1px solid var(--accent); padding: 10px 30px; border-radius: 50px; cursor: pointer; font-size: 14px; letter-spacing: 2px; transition: 0.3s; }
         .btn:disabled { opacity: 0; pointer-events: none; }
@@ -150,7 +145,7 @@
             <div class="date-label">Present</div>
             <div id="flower-zone" onclick="playSurpriseVideo()" style="cursor:pointer; text-align:center;">
                 <div style="font-size:80px;" class="heart-pulse">💐</div>
-                <p style="color:var(--primary); margin-top: 25px; font-weight: 500; letter-spacing: 3px;">收下花，看最後的心意</p>
+                <p style="color:var(--primary); margin-top: 25px; font-weight: 500; letter-spacing: 3px;">點擊收下花，看最後的心意</p>
             </div>
             <div id="letter">
                 <p style="font-weight: 700; color: var(--primary); font-size: 1.25rem;">「我發現這個人真的是我的100分女孩。」</p>
@@ -170,8 +165,24 @@
         const pages = document.querySelectorAll('.page');
         const m1 = document.getElementById('music-1');
         const m2 = document.getElementById('music-2');
+        const pageVideos = document.querySelectorAll('.page-video');
 
         const youtubeVideoId = "e4bQwcrrN9A"; 
+
+        // 為所有分頁中的影片加上監聽器
+        pageVideos.forEach(video => {
+            // 當分頁影片開始播放
+            video.onplay = () => {
+                m1.pause();
+            };
+            // 當分頁影片暫停或播放結束
+            video.onpause = video.onended = () => {
+                // 如果目前還沒到最後一頁（還在聽音樂 1 的階段），就恢復播放
+                if (curr < pages.length - 1) {
+                    m1.play().catch(e => console.log("音樂恢復受限"));
+                }
+            };
+        });
 
         function checkPwd() {
             const input = document.getElementById('pwd').value;
@@ -183,14 +194,13 @@
                     overlay.style.display = 'none';
                     document.getElementById('myBook').style.display = 'block';
                 }, 1000);
-            } else { 
-                alert("密碼不對喔，再想想看？"); 
-            }
+            } else { alert("密碼不對喔，再想想看？"); }
         }
 
         function nextPage() {
             if (curr < pages.length - 1) {
-                document.querySelectorAll('.page-video').forEach(v => v.pause());
+                // 翻頁時強制暫停當前頁面的影片
+                pageVideos.forEach(v => v.pause());
                 pages[curr].classList.add('flipped');
                 curr++;
                 updateButtons();
@@ -199,7 +209,7 @@
 
         function prevPage() {
             if (curr > 0) {
-                document.querySelectorAll('.page-video').forEach(v => v.pause());
+                pageVideos.forEach(v => v.pause());
                 curr--;
                 pages[curr].classList.remove('flipped');
                 updateButtons();
@@ -227,12 +237,15 @@
             setTimeout(() => {
                 container.style.display = 'none';
                 document.getElementById('video-wrapper').innerHTML = ""; 
-                showLetter();
-            }, 1000);
+                showLetter(); 
+            }, 800);
         }
 
         function showLetter() {
+            // 到最後告白信時，換成音樂 2
+            m1.pause();
             m2.play().catch(e => console.log("音樂 2 播放受限"));
+            
             document.getElementById('flower-zone').style.display = 'none';
             const lt = document.getElementById('letter');
             lt.style.display = 'block';
