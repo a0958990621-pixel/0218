@@ -16,33 +16,33 @@
         .login-btn { margin-top: 30px; background: var(--primary); color: white; border: none; padding: 16px 50px; border-radius: 50px; cursor: pointer; font-size: 18px; width: 100%; }
         
         .book { position: relative; width: 100%; height: 100vh; perspective: 2500px; display: none; }
-        .page { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; background: var(--bg); transform-origin: left center; transition: transform 1.1s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.8s ease; backface-visibility: hidden; z-index: var(--z); }
+        .page { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; background: var(--bg); transform-origin: left center; transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 1s ease; backface-visibility: hidden; z-index: var(--z); }
         .page.flipped { transform: rotateY(-170deg) translateX(-50px); opacity: 0; pointer-events: none; }
         .after-love-content { display: none; }
         
         .polaroid { background: var(--polaroid); padding: 10px 10px 100px 10px; box-shadow: 0 15px 45px rgba(0,0,0,0.1); transform: rotate(-1deg); max-width: 95%; width: 340px; position: relative; border: 1px solid rgba(0,0,0,0.02); }
         .media-container { width: 100%; background: #fcfcfc; overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center; min-height: 200px; }
-        .scratch-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%); backdrop-filter: blur(5px); z-index: 5; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.8s; border-radius: 2px; }
-        .scratch-overlay::after { content: "TAP TO REVEAL ✨"; color: #ad8a8a; font-size: 14px; letter-spacing: 2px; }
+        .scratch-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%); backdrop-filter: blur(5px); z-index: 5; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 1s; border-radius: 2px; }
+        .scratch-overlay::after { content: "TAP TO REVEAL ✨"; color: #ad8a8a; font-size: 14px; letter-spacing: 2px; font-weight: 500; }
         .scratch-overlay.revealed { opacity: 0; pointer-events: none; transform: scale(1.1); filter: blur(20px); }
         
         video, img { max-width: 100%; max-height: 38vh; object-fit: contain; display: block; }
-        .caption-tag { position: absolute; bottom: 15px; left: 0; width: 100%; text-align: center; font-size: 19px; color: #4a4a4a; letter-spacing: 1.5px; padding: 0 20px; line-height: 1.6; font-family: 'Noto Serif TC', serif; }
+        .caption-tag { position: absolute; bottom: 15px; left: 0; width: 100%; text-align: center; font-size: 19px; color: #4a4a4a; letter-spacing: 1px; padding: 0 15px; line-height: 1.5; font-family: 'Noto Serif TC', serif; }
         .date-label { font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 1.3rem; color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--accent); padding-bottom: 5px; }
         
         .nav-controls { position: fixed; bottom: 95px; width: 100%; display: flex; justify-content: center; gap: 30px; z-index: 1000; padding-bottom: env(safe-area-inset-bottom); }
         .btn { background: white; color: var(--primary); border: 1.5px solid var(--accent); padding: 12px 35px; border-radius: 50px; cursor: pointer; font-size: 15px; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.08); font-weight: 600; }
         .btn:disabled { opacity: 0; pointer-events: none; }
         
-        #final-video-container { display: none; position: fixed; inset: 0; background: black; z-index: 9000; justify-content: center; align-items: center; opacity: 0; transition: 0.6s; }
+        #final-video-container { display: none; position: fixed; inset: 0; background: black; z-index: 8000; justify-content: center; align-items: center; opacity: 0; transition: 0.6s; }
         .video-wrapper { position: relative; width: 90%; padding-bottom: 56.25%; height: 0; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .close-video { position: absolute; top: 40px; right: 20px; color: white; font-size: 40px; cursor: pointer; z-index: 9001; width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; }
+        .close-video { position: absolute; top: 40px; right: 20px; color: white; font-size: 40px; cursor: pointer; z-index: 8001; width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; }
         
         .day-counter-card { background: white; padding: 30px; border-radius: 30px; text-align: center; box-shadow: 0 20px 50px rgba(176, 137, 104, 0.1); width: 85%; max-width: 320px; }
         .day-number { font-size: 60px; font-weight: 700; color: var(--soft-red); font-family: 'Noto Serif TC', serif; margin: 10px 0; display: block; }
-        #letter { display: none; background: white; padding: 50px 40px; border-radius: 20px; opacity: 0; max-width: 400px; border-left: 8px solid var(--accent); }
-        #letter p { margin-bottom: 22px; opacity: 0; transform: translateY(12px); transition: 1.5s; font-family: 'Noto Serif TC', serif; line-height: 2; font-size: 20px; }
+        #letter { display: none; background: white; padding: 40px 30px; border-radius: 20px; opacity: 0; max-width: 400px; border-left: 8px solid var(--accent); }
+        #letter p { margin-bottom: 18px; opacity: 0; transform: translateY(12px); transition: 1.5s; font-family: 'Noto Serif TC', serif; line-height: 1.8; font-size: 18px; }
         .show-p { opacity: 1 !important; transform: translateY(0) !important; }
         @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1); opacity: 0.8; } }
         .heart-pulse { animation: pulse 2s infinite ease-in-out; }
@@ -72,16 +72,16 @@
         <div class="page" style="--z: 499;"><div class="date-label">2025 / 01 / 17</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0117.jpg"></div><div class="caption-tag">這是我們的<br>第一張合照ㄛ</div></div></div>
         <div class="page" style="--z: 498;"><div class="date-label">2025 / 01 / 23</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0123.jpg"></div><div class="caption-tag">跌倒的那天<br>月老在牽線啊啊啊</div></div></div>
         <div class="page" style="--z: 497;"><div class="date-label">2025 / 01 / 24</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0124.mp4"></video></div><div class="caption-tag">徹底暈船的那一天</div></div></div>
-        <div class="page" style="--z: 496;"><div class="date-label">2025 / 01 / 31</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0131.mp4"></video></div><div class="caption-tag">第一次出去玩就跳早操</div></div></div>
-        <div class="page" style="--z: 495;"><div class="date-label">2025 / 02 / 03</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0203.mp4"></video></div><div class="caption-tag">愛情的大壞蛋</div></div></div>
-        <div class="page" style="--z: 494;"><div class="date-label">2025 / 02 / 08</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0208.mp4"></video></div><div class="caption-tag">耍白痴撞到頭</div></div></div>
-        <div class="page" style="--z: 493;"><div class="date-label">2025 / 02 / 10</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0210.mp4"></video></div><div class="caption-tag">笑笑羊禮物喜歡嗎</div></div></div>
-        <div class="page" style="--z: 492;"><div class="date-label">2025 / 02 / 12</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0212.mp4"></video></div><div class="caption-tag">台南餵地瓜球</div></div></div>
-        <div class="page" style="--z: 491;"><div class="date-label">2025 / 02 / 21</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0221.mp4"></video></div><div class="caption-tag">幹嘛來大巨蛋突襲我啦</div></div></div>
-        <div class="page" style="--z: 490;"><div class="date-label">2025 / 02 / 25</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0225.jpg"></div><div class="caption-tag">我們一起去大巨蛋</div></div></div>
-        <div class="page" style="--z: 489;"><div class="date-label">2025 / 03 / 08</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0308.jpg"></div><div class="caption-tag">偷拍寶寶睡覺嘿嘿嘿</div></div></div>
+        <div class="page" style="--z: 496;"><div class="date-label">2025 / 01 / 31</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0131.mp4"></video></div><div class="caption-tag">第一次出去玩就跳早操<br>我真的真的沒有放水啦</div></div></div>
+        <div class="page" style="--z: 495;"><div class="date-label">2025 / 02 / 03</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0203.mp4"></video></div><div class="caption-tag">愛情的大壞蛋<br>寶寶覺得很帥嘿嘿嘿</div></div></div>
+        <div class="page" style="--z: 494;"><div class="date-label">2025 / 02 / 08</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0208.mp4"></video></div><div class="caption-tag">去雲林玩撞到頭超丟臉的<br>在喜歡的人面前耍白痴</div></div></div>
+        <div class="page" style="--z: 493;"><div class="date-label">2025 / 02 / 10</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0210.mp4"></video></div><div class="caption-tag">去新竹原本要突襲的<br>笑笑羊禮物喜歡嗎</div></div></div>
+        <div class="page" style="--z: 492;"><div class="date-label">2025 / 02 / 12</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0212.mp4"></video></div><div class="caption-tag">偷偷餵地瓜球<br>台南好好玩啊啊啊</div></div></div>
+        <div class="page" style="--z: 491;"><div class="date-label">2025 / 02 / 21</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0221.mp4"></video></div><div class="caption-tag">幹嘛來大巨蛋突襲我啦<br>真的是很討厭ㄟ</div></div></div>
+        <div class="page" style="--z: 490;"><div class="date-label">2025 / 02 / 25</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0225.jpg"></div><div class="caption-tag">我們一起去大巨蛋<br>看 WBCQ 啊啊啊</div></div></div>
+        <div class="page" style="--z: 489;"><div class="date-label">2025 / 03 / 08</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0308.jpg"></div><div class="caption-tag">又去台北玩<br>偷拍寶寶睡覺嘿嘿嘿</div></div></div>
         <div class="page" style="--z: 488;"><div class="date-label">2025 / 04 / 02</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0402.jpg"></div><div class="caption-tag">台灣祭好難過啊啊啊</div></div></div>
-        <div class="page" style="--z: 487;"><div class="date-label">2025 / 04 / 19</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0419.jpg"></div><div class="caption-tag">淨灘的時候偷偷抓我ㄛ</div></div></div>
+        <div class="page" style="--z: 487;"><div class="date-label">2025 / 04 / 19</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0419.jpg"></div><div class="caption-tag">淨灘的時候<br>偷偷抓我ㄛ</div></div></div>
         <div class="page" style="--z: 486;"><div class="date-label">2025 / 04 / 21</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0421.jpg"></div><div class="caption-tag">寶寶上台唱歌啊啊啊</div></div></div>
 
         <div class="page" style="--z: 400;" id="trigger-page">
@@ -93,9 +93,9 @@
                         <div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="在一起.jpg"></div>
                         <div class="caption-tag" style="font-size: 16px; bottom: 10px;">這一天，我們在一起了 ❤️</div>
                     </div>
-                    <p style="color:var(--primary); font-weight: 700; font-size: 18px;">按 NEXT 開啟甜蜜新篇章</p>
+                    <p style="color:var(--primary); font-weight: 700; font-size: 18px; margin-top: 5px;">按 NEXT 開啟甜蜜新篇章</p>
                 </div>
-                <p id="trigger-text" style="color:var(--primary); margin-top: 25px; font-weight: 700; font-size: 20px;">3:14分我們在一起惹<br>看最重要的時刻</p>
+                <p id="trigger-text" style="color:var(--primary); margin-top: 25px; font-weight: 700; font-size: 20px; line-height: 1.6;">3:14分我們在一起惹<br>看最重要的時刻</p>
             </div>
         </div>
 
@@ -104,37 +104,38 @@
         <div class="page sweet-era after-love-content" style="--z: 382;"><div class="date-label">2025 / 05 / 08</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0508.jpg"></div><div class="caption-tag">送我恐龍<br>我開心到哭啊啊啊啊</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 381;"><div class="date-label">2025 / 05 / 16</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0516.jpg"></div><div class="caption-tag">陪我去第二市場採訪</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 380;"><div class="date-label">2025 / 05 / 20</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0520.jpg"></div><div class="caption-tag">第一個 520<br>偷偷送寶寶花</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 379;"><div class="date-label">2025 / 06 / 14</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0614.mp4"></video></div><div class="caption-tag">第一次陪我去大巨蛋工作</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 378;"><div class="date-label">2025 / 07 / 05</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0705.mp4"></video></div><div class="caption-tag">第一次看五月天</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 379;"><div class="date-label">2025 / 06 / 14</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0614.mp4"></video></div><div class="caption-tag">第一次陪我去大巨蛋工作<br>有人喝酒在睡覺ㄚ</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 378;"><div class="date-label">2025 / 07 / 05</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0705.mp4"></video></div><div class="caption-tag">第一次看五月天<br>完成我的夢想</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 377;"><div class="date-label">2025 / 08 / 08</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0808.jpg"></div><div class="caption-tag">寶寶陪我去洲際工作</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 376;"><div class="date-label">2025 / 08 / 15</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0815.mp4"></video></div><div class="caption-tag">突擊新竹運動中心</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 375;"><div class="date-label">2025 / 08 / 17</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0817.mp4"></video></div><div class="caption-tag">一起去大甲工作</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 376;"><div class="date-label">2025 / 08 / 15</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0815.mp4"></video></div><div class="caption-tag">突擊新竹運動中心<br>終於突襲到了嘿嘿嘿</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 375;"><div class="date-label">2025 / 08 / 17</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0817.mp4"></video></div><div class="caption-tag">一起去大甲工作<br>超累的</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 374;"><div class="date-label">2025 / 08 / 27</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0827.mp4"></video></div><div class="caption-tag">跟好朋友們去宜蘭玩</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 373;"><div class="date-label">2025 / 09 / 12</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0912.jpg"></div><div class="caption-tag">練車摔車回憶</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 372;"><div class="date-label">2025 / 09 / 20</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0920.mp4"></video></div><div class="caption-tag">大甲拍熱音社</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 371;"><div class="date-label">2025 / 09 / 24</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0924.jpg"></div><div class="caption-tag">寶寶殺來靜宜</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 370;"><div class="date-label">2025 / 09 / 29</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0929.jpg"></div><div class="caption-tag">光復當鏟子超人</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 373;"><div class="date-label)2025 / 09 / 12"></div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0912.jpg"></div><div class="caption-tag">去練車，寶寶摔車<br>看 96 分鐘看到哭哭</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 372;"><div class="date-label">2025 / 09 / 20</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="0920.mp4"></video></div><div class="caption-tag">寶寶一起陪我去<br>大甲拍熱音社</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 371;"><div class="date-label">2025 / 09 / 24</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0924.jpg"></div><div class="caption-tag">寶寶殺來靜宜<br>嚇爛啊啊啊啊啊</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 370;"><div class="date-label">2025 / 09 / 29</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0929.jpg"></div><div class="caption-tag">到光復當鏟子超人<br>超熱血的！！！</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 369;"><div class="date-label">2025 / 10 / 02</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1002.jpg"></div><div class="caption-tag">一起去洲際拋彩帶</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 368;"><div class="date-label">2025 / 10 / 03</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1003.jpg"></div><div class="caption-tag">去台南玩啊啊啊啊</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 367;"><div class="date-label">2025 / 10 / 11</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="1011.mp4"></video></div><div class="caption-tag">鹿港芒果醬</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 366;"><div class="date-label">2025 / 10 / 12</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1012.jpg"></div><div class="caption-tag">閃光燈開不了</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 365;"><div class="date-label">2025 / 10 / 16</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="1016.mp4"></video></div><div class="caption-tag">跑了20家7-11</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 364;"><div class="date-label">2025 / 10 / 24</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1024.jpg"></div><div class="caption-tag">我們半年惹</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 363;"><div class="date-label">2025 / 11 / 29</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="1129.mp4"></video></div><div class="caption-tag">抽到啾啾</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 362;"><div class="date-label">2025 / 12 / 24</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1224.jpg"></div><div class="caption-tag">第一個平安夜</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 367;"><div class="date-label">2025 / 10 / 11</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="1011.mp4"></video></div><div class="caption-tag">聽潮派鹿港芒果醬<br>一直上電視</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 366;"><div class="date-label">2025 / 10 / 12</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1012.jpg"></div><div class="caption-tag">我哭哭<br>閃光燈開不了</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 365;"><div class="date-label">2025 / 10 / 16</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="1016.mp4"></video></div><div class="caption-tag">跑了20家7-11買到惹<br>寶寶很開心嘿嘿</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 364;"><div class="date-label">2025 / 10 / 24</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1024.jpg"></div><div class="caption-tag">我們半年惹啊啊啊啊</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 363;"><div class="date-label">2025 / 11 / 29</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" controls playsinline><source src="1129.mp4"></video></div><div class="caption-tag">抽到啾啾<br>會不會太扯啦</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 362;"><div class="date-label">2025 / 12 / 24</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1224.jpg"></div><div class="caption-tag">跟寶寶的<br>第一個平安夜</div></div></div>
         <div class="page sweet-era after-love-content" style="--z: 361;"><div class="date-label">2025 / 12 / 26</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1226.jpg"></div><div class="caption-tag">第一次拍拍貼機</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 360;"><div class="date-label">2025 / 12 / 31</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1231.jpg"></div><div class="caption-tag">第一次跨年</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 359;"><div class="date-label">2026 / 01 / 18</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="20260118.jpg"></div><div class="caption-tag">陪寶寶做手作</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 358;"><div class="date-label">2026 / 01 / 21</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="20260121.jpg"></div><div class="caption-tag">寶寶幫我慶生</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 357;"><div class="date-label">2026 / 01 / 26</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="20250126.jpg"></div><div class="caption-tag">出隊回憶</div></div></div>
-        <div class="page sweet-era after-love-content" style="--z: 356;"><div class="date-label">2026 / 01 / 29</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="20260129.jpg"></div><div class="caption-tag">寶寶載我回家</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 360;"><div class="date-label">2025 / 12 / 31</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1231.jpg"></div><div class="caption-tag">第一次跟寶寶跨年<br>好開心啊啊啊</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 359;"><div class="date-label">2026 / 01 / 18</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="20260118.jpg"></div><div class="caption-tag">陪寶寶一起做手作</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 358;"><div class="date-label">2026 / 01 / 21</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="20260121.jpg"></div><div class="caption-tag">寶寶幫我慶生啊啊啊<br>還有卡片和蛋糕</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 357;"><div class="date-label">2026 / 01 / 26</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="20250126.jpg"></div><div class="caption-tag">出隊惹<br>好累好累</div></div></div>
+        <div class="page sweet-era after-love-content" style="--z: 356;"><div class="date-label">2026 / 01 / 29</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="20260129.jpg"></div><div class="caption-tag">終於熬過去了<br>寶寶載我回家嘿嘿</div></div></div>
 
         <div class="page sweet-era after-love-content" style="--z: 10;" id="day-counter-page">
             <div class="date-label">Future</div>
-            <div class="day-counter-card"><p>我們已經在一起</p><span id="days-val" class="day-number">0</span><p>DAYS</p></div>
-            <p style="margin-top: 30px; color: #888; font-style: italic;">「每天睜開眼，愛妳又多了一天。」</p>
+            <div class="day-counter-card"><p style="color:var(--primary); font-size: 18px;">我們已經在一起</p><span id="days-val" class="day-number">0</span><p style="color:var(--primary); font-size: 18px;">DAYS</p></div>
+            <p style="margin-top: 30px; color: #888; font-style: italic; font-size: 16px;">「每天睜開眼，愛妳又多了一天。」</p>
         </div>
         <div class="page after-love-content" style="--z: 1;">
+            <div class="date-label">To My 100% Girl</div>
             <div id="letter">
                 <p style="font-weight: 700; color: var(--primary); font-size: 24px;">「致我的 100 分女孩。」</p>
                 <p>雖然我可能不是你喜歡的帥哥</p>
@@ -144,10 +145,7 @@
             </div>
         </div>
 
-        <div class="nav-controls">
-            <button class="btn" id="prevBtn" onclick="prevPage()" disabled>PREV</button>
-            <button class="btn" id="nextBtn" onclick="nextPage()">NEXT</button>
-        </div>
+        <div class="nav-controls"><button class="btn" id="prevBtn" onclick="prevPage()" disabled>PREV</button><button class="btn" id="nextBtn" onclick="nextPage()">NEXT</button></div>
     </div>
 
     <script>
@@ -181,16 +179,24 @@
 
         function nextPage() {
             if (curr < pages.length - 1) {
-                document.querySelectorAll('.page-video').forEach(v=>{v.pause(); v.currentTime=0;});
+                // 手機順暢度修正：徹底殺掉前頁影片記憶體
+                const oldV = pages[curr].querySelector('video');
+                if(oldV) { oldV.pause(); oldV.currentTime = 0; }
+                
                 pages[curr].classList.add('flipped'); curr++; updateButtons(); wakeUpAudio();
                 if (pages[curr].id === "day-counter-page") animateDays();
-                if (curr === pages.length - 1) showLetter();
+                if (curr === pages.length - 1) {
+                    const lt = document.getElementById('letter'); lt.style.display = 'block'; 
+                    setTimeout(()=>lt.style.opacity='1',10); 
+                    lt.querySelectorAll('p').forEach((p,i)=>setTimeout(()=>p.classList.add('show-p'),i*2000));
+                }
             }
         }
 
         function prevPage() {
             if (curr > 0) {
-                document.querySelectorAll('.page-video').forEach(v=>{v.pause(); v.currentTime=0;});
+                const oldV = pages[curr].querySelector('video');
+                if(oldV) { oldV.pause(); oldV.currentTime = 0; }
                 curr--; pages[curr].classList.remove('flipped'); updateButtons(); wakeUpAudio();
             }
         }
@@ -203,23 +209,16 @@
         }
 
         function closeFinalVideo() {
-            // 關鍵修正：先銷毀 iframe 再切換狀態
-            const frame = document.getElementById('yt-frame');
-            if(frame) frame.src = "";
+            const frame = document.getElementById('yt-frame'); if(frame) frame.src = "";
             document.getElementById('video-wrapper').innerHTML = "";
-            
-            const container = document.getElementById('final-video-container');
-            container.style.opacity = '0';
+            document.getElementById('final-video-container').style.opacity = '0';
             setTimeout(() => {
-                container.style.display = 'none';
+                document.getElementById('final-video-container').style.display = 'none';
                 isStoryUnlocked = true;
                 document.getElementById('flower-main').style.display = "none";
                 document.getElementById('trigger-text').style.display = "none";
                 document.getElementById('after-video-ui').style.display = "block";
-                
-                m1.pause(); m1.currentTime = 0;
-                m2.play().catch(()=>{});
-                
+                m1.pause(); m1.currentTime = 0; m2.play().catch(()=>{});
                 document.querySelectorAll('.after-love-content').forEach(p=>p.style.display = 'flex');
                 updateButtons();
             }, 600);
@@ -231,12 +230,7 @@
             const timer = setInterval(() => { count += Math.ceil(target / 50); if (count >= target) { display.innerText = target; clearInterval(timer); } else display.innerText = count; }, 30);
         }
 
-        function showLetter() {
-            const lt = document.getElementById('letter'); lt.style.display = 'block';
-            setTimeout(()=>lt.style.opacity='1',10);
-            lt.querySelectorAll('p').forEach((p,i)=>setTimeout(()=>p.classList.add('show-p'),i * 2000));
-        }
-
+        // --- 鍵盤控制補全 ---
         window.addEventListener('keydown', (e) => {
             if (!bookStarted) return;
             const isTrigger = (pages[curr].id === "trigger-page");
