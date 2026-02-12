@@ -6,30 +6,39 @@
     <title>給 曾☁️💗 的故事書 - 第一冊</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap');
-        :root { --primary: #8d6e63; --accent: #e6beae; --bg: #fdfaf7; --text: #2c2c2c; --polaroid: #ffffff; }
+        :root { --primary: #8d6e63; --accent: #e6beae; --bg: #fdfaf7; --text: #2c2c2c; --polaroid: #ffffff; --soft-red: #e63946; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); font-family: "PingFang TC", sans-serif; overflow: hidden; color: var(--text); }
+        
         #login-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: 0.8s; }
         .login-box { text-align: center; background: white; padding: 50px 30px; border-radius: 40px; box-shadow: 0 25px 60px rgba(0,0,0,0.1); width: 85%; max-width: 380px; }
         #pwd { padding: 15px; font-size: 20px; text-align: center; border: none; border-bottom: 2.5px solid #eee; outline: none; width: 100%; letter-spacing: 8px; margin-top: 20px; }
         .login-btn { margin-top: 30px; background: var(--primary); color: white; border: none; padding: 16px 50px; border-radius: 50px; cursor: pointer; font-size: 18px; width: 100%; transition: 0.3s; }
+
         .book { position: relative; width: 100%; height: 100vh; perspective: 2500px; display: none; }
         .page { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; background: var(--bg); transform-origin: left center; transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.8s ease; backface-visibility: hidden; z-index: var(--z); }
         .page.flipped { transform: rotateY(-170deg) translateX(-50px); opacity: 0; pointer-events: none; }
+        
         .polaroid { background: var(--polaroid); padding: 10px 10px 100px 10px; box-shadow: 0 15px 45px rgba(0,0,0,0.1); transform: rotate(-1deg); max-width: 95%; width: 340px; position: relative; border: 1px solid rgba(0,0,0,0.02); }
         .media-container { width: 100%; background: #fcfcfc; overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center; min-height: 200px; }
         .scratch-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%); backdrop-filter: blur(5px); z-index: 5; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.8s; }
         .scratch-overlay::after { content: "TAP TO REVEAL ✨"; color: #ad8a8a; font-size: 14px; }
         .scratch-overlay.revealed { opacity: 0; pointer-events: none; }
+        
         video, img { max-width: 100%; max-height: 38vh; object-fit: contain; }
         .caption-tag { position: absolute; bottom: 15px; left: 0; width: 100%; text-align: center; font-size: 18px; color: #4a4a4a; line-height: 1.5; font-family: 'Noto Serif TC', serif; }
         .date-label { font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 1.3rem; color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--accent); padding-bottom: 5px; }
+
         .nav-controls { position: fixed; bottom: 95px; width: 100%; display: flex; justify-content: center; gap: 30px; z-index: 1000; }
-        .btn { background: white; color: var(--primary); border: 1.5px solid var(--accent); padding: 12px 35px; border-radius: 50px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: 0.3s; }
+        .btn { background: white; color: var(--primary); border: 1.5px solid var(--accent); padding: 12px 35px; border-radius: 50px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        
         #final-video-container { display: none; position: fixed; inset: 0; background: black; z-index: 9500; justify-content: center; align-items: center; opacity: 0; transition: 0.6s; }
         .video-wrapper { position: relative; width: 95%; padding-bottom: 56.25%; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .close-video { position: absolute; top: 40px; right: 20px; color: white; font-size: 40px; cursor: pointer; z-index: 9501; width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; }
+
+        .jump-btn { background: var(--soft-red) !important; color: white !important; border: none !important; font-size: 1.2rem !important; padding: 15px 30px !important; text-decoration: none; display: inline-block; border-radius: 50px; margin-top: 20px; box-shadow: 0 10px 25px rgba(230,57,70,0.3); }
+
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         .heart-pulse { animation: pulse 2s infinite ease-in-out; }
     </style>
@@ -61,7 +70,7 @@
         <div class="page" style="--z: 93;"><div class="date-label">2025 / 02 / 10</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0210.mp4" controls playsinline></video></div><div class="caption-tag">笑笑羊禮物喜歡嗎</div></div></div>
         <div class="page" style="--z: 92;"><div class="date-label">2025 / 02 / 12</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0212.mp4" controls playsinline></video></div><div class="caption-tag">台南餵地瓜球</div></div></div>
         <div class="page" style="--z: 91;"><div class="date-label">2025 / 02 / 21</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0221.mp4" controls playsinline></video></div><div class="caption-tag">幹嘛來大巨蛋突襲我啦</div></div></div>
-        <div class="page" style="--z: 90;"><div class="date-label">2025 / 02 / 25</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0225.jpg"></div><div class="caption-tag">我們一起去大巨蛋</div></div></div>
+        <div class="page" style="--z: 90;"><div class="date-label">2025 / 02 / 25</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0225.jpg"></div><div class="caption-tag">我們一起去大巨蛋 看 WBCQ</div></div></div>
         <div class="page" style="--z: 89;"><div class="date-label">2025 / 03 / 08</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0308.jpg"></div><div class="caption-tag">偷拍寶寶睡覺嘿嘿嘿</div></div></div>
         <div class="page" style="--z: 88;"><div class="date-label">2025 / 04 / 02</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0402.jpg"></div><div class="caption-tag">台灣祭好難過啊啊啊</div></div></div>
         <div class="page" style="--z: 87;"><div class="date-label">2025 / 04 / 19</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0419.jpg"></div><div class="caption-tag">淨灘的時候偷偷抓我ㄛ</div></div></div>
@@ -72,7 +81,7 @@
             <div id="flower-zone" style="text-align:center;">
                 <div id="flower-main" style="font-size:80px; cursor:pointer;" class="heart-pulse" onclick="playSurpriseVideo()">💐</div>
                 <div id="after-video-ui" style="display:none;">
-                    <button class="login-btn" onclick="goToLovePage()">💖 開啟我們的甜蜜新篇章</button>
+                    <a href="love.html" class="jump-btn">💖 開啟我們的甜蜜新篇章</a>
                 </div>
                 <p id="trigger-text" style="color:var(--primary); margin-top: 25px; font-weight: 700; font-size: 20px;">3:14分我們在一起惹<br>看最重要的時刻</p>
             </div>
@@ -85,9 +94,9 @@
         const m1 = document.getElementById('music-1');
         let bookStarted = false;
 
-        window.onload = () => { 
-            document.getElementById('login-overlay').style.display = 'flex'; 
-            document.getElementById('pwd').value = ""; 
+        window.onload = () => {
+            document.getElementById('login-overlay').style.display = 'flex';
+            document.getElementById('pwd').value = "";
             m1.load();
         };
 
@@ -120,7 +129,7 @@
         function updateButtons() { document.getElementById('prevBtn').disabled = (curr === 0); document.getElementById('nextBtn').disabled = (curr === pages.length - 1 || pages[curr].id === "trigger-page"); }
         
         function playSurpriseVideo() {
-            m1.pause();
+            m1.pause(); // YT 開始時背景音徹底暫停
             document.getElementById('video-wrapper').innerHTML = `<iframe id="yt-frame" src="https://www.youtube.com/embed/e4bQwcrrN9A?autoplay=1&enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
             document.getElementById('final-video-container').style.display = 'flex';
             setTimeout(()=>document.getElementById('final-video-container').style.opacity = '1', 50);
@@ -134,11 +143,10 @@
                 document.getElementById('flower-main').style.display = "none";
                 document.getElementById('trigger-text').style.display = "none";
                 document.getElementById('after-video-ui').style.display = "block";
+                // 關閉後換五月天且秒播
                 m1.src = "五月天-為你寫下這首情歌.mp3"; m1.load(); m1.play().catch(()=>{});
             }, 600);
         }
-
-        function goToLovePage() { m1.play().then(() => { window.location.href = 'love.html'; }).catch(() => { window.location.href = 'love.html'; }); }
 
         window.addEventListener('keydown', (e) => {
             if (!bookStarted) return;
