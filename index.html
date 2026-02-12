@@ -9,27 +9,38 @@
         :root { --primary: #8d6e63; --accent: #e6beae; --bg: #fdfaf7; --text: #2c2c2c; --polaroid: #ffffff; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); font-family: "PingFang TC", sans-serif; overflow: hidden; color: var(--text); }
-        #login-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 9999; opacity: 1; transition: 0.8s; }
+        
+        /* 密碼層 */
+        #login-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: 0.8s; }
         .login-box { text-align: center; background: white; padding: 50px 30px; border-radius: 40px; box-shadow: 0 25px 60px rgba(0,0,0,0.1); width: 85%; max-width: 380px; }
         #pwd { padding: 15px; font-size: 20px; text-align: center; border: none; border-bottom: 2.5px solid #eee; outline: none; width: 100%; letter-spacing: 8px; margin-top: 20px; }
         .login-btn { margin-top: 30px; background: var(--primary); color: white; border: none; padding: 16px 50px; border-radius: 50px; cursor: pointer; font-size: 18px; width: 100%; }
+
+        /* 書本系統 */
         .book { position: relative; width: 100%; height: 100vh; perspective: 2500px; display: none; }
         .page { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; background: var(--bg); transform-origin: left center; transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.8s ease; backface-visibility: hidden; z-index: var(--z); }
         .page.flipped { transform: rotateY(-170deg) translateX(-50px); opacity: 0; pointer-events: none; }
+        
         .polaroid { background: var(--polaroid); padding: 10px 10px 100px 10px; box-shadow: 0 15px 45px rgba(0,0,0,0.1); transform: rotate(-1deg); max-width: 95%; width: 340px; position: relative; border: 1px solid rgba(0,0,0,0.02); }
         .media-container { width: 100%; background: #fcfcfc; overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center; min-height: 200px; }
         .scratch-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%); backdrop-filter: blur(5px); z-index: 5; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.8s; }
         .scratch-overlay::after { content: "TAP TO REVEAL ✨"; color: #ad8a8a; font-size: 14px; }
         .scratch-overlay.revealed { opacity: 0; pointer-events: none; }
+        
         video, img { max-width: 100%; max-height: 38vh; object-fit: contain; }
         .caption-tag { position: absolute; bottom: 15px; left: 0; width: 100%; text-align: center; font-size: 18px; color: #4a4a4a; line-height: 1.5; font-family: 'Noto Serif TC', serif; }
-        .date-label { font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 1.3rem; color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--accent); }
+        .date-label { font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 1.3rem; color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--accent); padding-bottom: 5px; }
+
         .nav-controls { position: fixed; bottom: 95px; width: 100%; display: flex; justify-content: center; gap: 30px; z-index: 1000; }
         .btn { background: white; color: var(--primary); border: 1.5px solid var(--accent); padding: 12px 35px; border-radius: 50px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .btn:disabled { opacity: 0; pointer-events: none; }
+
+        /* YT 視窗 */
         #final-video-container { display: none; position: fixed; inset: 0; background: black; z-index: 9500; justify-content: center; align-items: center; opacity: 0; transition: 0.6s; }
         .video-wrapper { position: relative; width: 95%; padding-bottom: 56.25%; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .close-video { position: absolute; top: 40px; right: 20px; color: white; font-size: 40px; cursor: pointer; z-index: 9501; }
+        .close-video { position: absolute; top: 40px; right: 20px; color: white; font-size: 40px; cursor: pointer; z-index: 9501; width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; }
+
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         .heart-pulse { animation: pulse 2s infinite ease-in-out; }
     </style>
@@ -60,7 +71,7 @@
         <div class="page" style="--z: 94;"><div class="date-label">2025 / 02 / 08</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0208.mp4" controls playsinline></video></div><div class="caption-tag">耍白痴撞到頭</div></div></div>
         <div class="page" style="--z: 93;"><div class="date-label">2025 / 02 / 10</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0210.mp4" controls playsinline></video></div><div class="caption-tag">笑笑羊禮物喜歡嗎</div></div></div>
         <div class="page" style="--z: 92;"><div class="date-label">2025 / 02 / 12</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0212.mp4" controls playsinline></video></div><div class="caption-tag">台南餵地瓜球</div></div></div>
-        <div class="page" style="--z: 91;"><div class="date-label">2025 / 02 / 21</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0221.mp4" controls playsinline></video></div><div class="caption-tag">大巨蛋突襲我</div></div></div>
+        <div class="page" style="--z: 91;"><div class="date-label">2025 / 02 / 21</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0221.mp4" controls playsinline></video></div><div class="caption-tag">幹嘛來大巨蛋突襲我啦</div></div></div>
         <div class="page" style="--z: 90;"><div class="date-label">2025 / 02 / 25</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0225.jpg"></div><div class="caption-tag">我們一起去大巨蛋</div></div></div>
         <div class="page" style="--z: 89;"><div class="date-label">2025 / 03 / 08</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0308.jpg"></div><div class="caption-tag">偷拍寶寶睡覺</div></div></div>
         <div class="page" style="--z: 88;"><div class="date-label">2025 / 04 / 02</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0402.jpg"></div><div class="caption-tag">台灣祭好難過</div></div></div>
@@ -84,22 +95,13 @@
         const m1 = document.getElementById('music-1');
         let bookStarted = false;
 
-        window.onload = () => {
-            document.getElementById('login-overlay').style.display = 'flex';
-            document.getElementById('pwd').value = "";
-        };
-
+        window.onload = () => { document.getElementById('login-overlay').style.display = 'flex'; document.getElementById('pwd').value = ""; };
         function reveal(overlay) { overlay.classList.add('revealed'); }
         function wakeUpAudio() { if (bookStarted && m1.paused) m1.play().catch(()=>{}); }
         function checkPwd() {
             if (document.getElementById('pwd').value === '20250424') {
-                m1.play().catch(()=>{});
-                document.getElementById('login-overlay').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('login-overlay').style.display = 'none';
-                    document.getElementById('myBook').style.display = 'block';
-                    bookStarted = true; loadVideo(0);
-                }, 800);
+                m1.play().catch(()=>{}); document.getElementById('login-overlay').style.opacity = '0';
+                setTimeout(() => { document.getElementById('login-overlay').style.display = 'none'; document.getElementById('myBook').style.display = 'block'; bookStarted = true; loadVideo(0); }, 800);
             } else { alert("密碼錯誤喔！"); }
         }
         function loadVideo(index) {
@@ -116,7 +118,6 @@
             document.getElementById('final-video-container').style.display = 'flex';
             setTimeout(()=>document.getElementById('final-video-container').style.opacity = '1', 50);
         }
-
         function closeFinalVideo() {
             document.getElementById('video-wrapper').innerHTML = "";
             document.getElementById('final-video-container').style.opacity = '0';
@@ -125,17 +126,10 @@
                 document.getElementById('flower-main').style.display = "none";
                 document.getElementById('trigger-text').style.display = "none";
                 document.getElementById('after-video-ui').style.display = "block";
-                // 關閉後立刻播放五月天
-                m1.src = "五月天-為你寫下這首情歌.mp3";
-                m1.load(); m1.play().catch(()=>{});
+                m1.src = "五月天-為你寫下這首情歌.mp3"; m1.load(); m1.play().catch(()=>{});
             }, 600);
         }
-
-        window.addEventListener('keydown', (e) => {
-            if (!bookStarted) return;
-            if ((e.key === "ArrowRight" || e.key === " ") && (pages[curr].id !== "trigger-page")) nextPage();
-            else if (e.key === "ArrowLeft") prevPage();
-        });
+        window.addEventListener('keydown', (e) => { if (!bookStarted) return; if ((e.key === "ArrowRight" || e.key === " ") && (pages[curr].id !== "trigger-page")) nextPage(); else if (e.key === "ArrowLeft") prevPage(); });
         document.getElementById('pwd').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPwd(); });
     </script>
 </body>
