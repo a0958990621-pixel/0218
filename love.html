@@ -4,97 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>給 曾☁️💗 的故事書 - II</title>
-    <script>if (!sessionStorage.getItem('unlocked') || !sessionStorage.getItem('from_index')) { location.replace('index.html'); }</script>
+    <script>if(!sessionStorage.getItem('ok')) location.replace('index.html');</script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap');
-        :root { --primary: #8d6e63; --accent: #e6beae; --bg: #fffcf9; --text: #2c2c2c; --polaroid: #ffffff; --soft-red: #e63946; }
+        :root { --primary: #8d6e63; --accent: #e6beae; --bg: #fffcf9; --text: #2c2c2c; --soft-red: #e63946; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); font-family: "PingFang TC", sans-serif; overflow: hidden; color: var(--text); }
-        .book { position: relative; width: 100%; height: 100vh; perspective: 2500px; }
-        .page { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; background: var(--bg); transform-origin: left center; transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.8s ease; backface-visibility: hidden; z-index: var(--z); }
-        .page.flipped { transform: rotateY(-170deg) translateX(-50px); opacity: 0; pointer-events: none; }
-        .polaroid { background: var(--polaroid); padding: 10px 10px 100px 10px; box-shadow: 0 15px 45px rgba(0,0,0,0.1); transform: rotate(-1deg); max-width: 95%; width: 340px; position: relative; }
-        .media-container { width: 100%; background: #fcfcfc; overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center; min-height: 200px; }
-        .scratch-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%); backdrop-filter: blur(5px); z-index: 5; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.8s; }
-        .scratch-overlay::after { content: "TAP ✨"; color: #ad8a8a; font-size: 14px; }
-        .scratch-overlay.revealed { opacity: 0; pointer-events: none; }
-        video, img { max-width: 100%; max-height: 38vh; object-fit: contain; }
-        .caption-tag { position: absolute; bottom: 15px; left: 0; width: 100%; text-align: center; font-size: 19px; color: #4a4a4a; line-height: 1.6; font-family: 'Noto Serif TC', serif; }
-        .date-label { font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 1.3rem; color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--accent); padding-bottom: 5px; }
-        .nav-controls { position: fixed; bottom: 95px; width: 100%; display: flex; justify-content: center; gap: 30px; z-index: 1000; }
-        .btn { background: white; color: var(--primary); border: 1.5px solid var(--accent); padding: 12px 35px; border-radius: 50px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        .day-counter-card { background: white; padding: 30px; border-radius: 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.1); width: 85%; max-width: 320px; }
-        .day-number { font-size: 60px; font-weight: 700; color: var(--soft-red); font-family: 'Noto Serif TC', serif; margin: 10px 0; display: block; }
-        #letter { display: none; background: white; padding: 40px 30px; border-radius: 20px; opacity: 0; max-width: 400px; border-left: 8px solid var(--accent); }
-        #letter p { margin-bottom: 22px; opacity: 0; transform: translateY(12px); transition: 1.5s; font-family: 'Noto Serif TC', serif; line-height: 2; font-size: 20px; }
-        .show-p { opacity: 1 !important; transform: translateY(0) !important; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); font-family: "PingFang TC", sans-serif; overflow: hidden; }
+        .book { position: relative; width: 100%; height: 100vh; perspective: 2000px; }
+        .page { position: absolute; width: 100%; height: 100%; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--bg); transform-origin: left center; transition: transform 0.8s ease-in-out, opacity 0.5s; backface-visibility: hidden; z-index: var(--z); }
+        .page.flipped { transform: rotateY(-160deg) translateX(-50px); opacity: 0; pointer-events: none; }
+        .polaroid { background: white; padding: 10px 10px 85px 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 320px; position: relative; }
+        .media-box { width: 100%; aspect-ratio: 4/5; background: #f9f9f9; overflow: hidden; display: flex; justify-content: center; align-items: center; position: relative; }
+        img, video { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .scratch { position: absolute; inset: 0; background: linear-gradient(135deg, #fce4ec, #f3e5f5); z-index: 5; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.6s; font-size: 14px; color: #ad8a8a; }
+        .scratch.hide { opacity: 0; pointer-events: none; }
+        .caption { position: absolute; bottom: 15px; left: 0; width: 100%; text-align: center; font-family: 'Noto Serif TC', serif; font-size: 17px; color: #444; line-height: 1.5; padding: 0 10px; }
+        .date { font-family: 'Noto Serif TC', serif; font-weight: 700; color: var(--primary); margin-bottom: 15px; border-bottom: 2px solid var(--accent); font-size: 1.2rem; }
+        .nav { position: fixed; bottom: 40px; width: 100%; display: flex; justify-content: center; gap: 20px; z-index: 1000; }
+        .btn { background: white; border: 1px solid var(--accent); padding: 10px 25px; border-radius: 50px; color: var(--primary); font-weight: 600; cursor: pointer; }
+        .day-card { background: white; padding: 35px 25px; border-radius: 30px; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.05); width: 85%; max-width: 300px; }
+        .day-num { font-size: 65px; font-weight: 700; color: var(--soft-red); display: block; margin: 10px 0; font-family: 'Noto Serif TC'; }
     </style>
 </head>
-<body onclick="wakeUpAudio()">
-    <audio id="music-player" loop preload="auto"><source src="五月天-為你寫下這首情歌.mp3"></audio>
-    <div class="book" style="display:block;">
-        <div class="page" style="--z: 500;"><div class="date-label">2025 / 04 / 24</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="在一起.jpg"></div><div class="caption-tag">這一天，我們在一起了 ❤️</div></div></div>
-        <div class="page" style="--z: 490;"><div class="date-label">2025 / 04 / 25</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0425.jpg"></div><div class="caption-tag">第一次牽手時你說<br>還是要再牽一下啊啊啊</div></div></div>
-        <div class="page" style="--z: 480;"><div class="date-label">2025 / 05 / 03</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0503.jpg"></div><div class="caption-tag">一起去高雄看 Trash</div></div></div>
-        <div class="page" style="--z: 470;"><div class="date-label">2025 / 05 / 08</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0508.jpg"></div><div class="caption-tag">送我恐龍<br>我開心到哭啊啊啊啊</div></div></div>
-        <div class="page" style="--z: 460;"><div class="date-label">2025 / 05 / 16</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0516.jpg"></div><div class="caption-tag">陪我去第二市場採訪</div></div></div>
-        <div class="page" style="--z: 450;"><div class="date-label">2025 / 05 / 20</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0520.jpg"></div><div class="caption-tag">第一個 520<br>偷偷送寶寶花</div></div></div>
-        <div class="page" style="--z: 440;"><div class="date-label">2025 / 06 / 14</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0614.mp4" controls playsinline></video></div><div class="caption-tag">第一次陪我去大巨蛋工作</div></div></div>
-        <div class="page" style="--z: 430;"><div class="date-label">2025 / 07 / 05</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0705.mp4" controls playsinline></video></div><div class="caption-tag">第一次看五月天</div></div></div>
-        <div class="page" style="--z: 420;"><div class="date-label">2025 / 08 / 08</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0808.jpg"></div><div class="caption-tag">寶寶陪我去洲際工作</div></div></div>
-        <div class="page" style="--z: 410;"><div class="date-label">2025 / 08 / 15</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0815.mp4" controls playsinline></video></div><div class="caption-tag">突擊新竹運動中心</div></div></div>
-        <div class="page" style="--z: 400;"><div class="date-label">2025 / 08 / 17</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0817.mp4" controls playsinline></video></div><div class="caption-tag">一起去大甲工作</div></div></div>
-        <div class="page" style="--z: 390;"><div class="date-label">2025 / 08 / 27</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0827.mp4" controls playsinline></video></div><div class="caption-tag">跟朋友們去宜蘭玩</div></div></div>
-        <div class="page" style="--z: 380;"><div class="date-label">2025 / 09 / 12</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0912.jpg"></div><div class="caption-tag">寶寶摔車看 96 分鐘哭哭</div></div></div>
-        <div class="page" style="--z: 370;"><div class="date-label">2025 / 09 / 20</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="0920.mp4" controls playsinline></video></div><div class="caption-tag">大甲拍熱音社</div></div></div>
-        <div class="page" style="--z: 360;"><div class="date-label">2025 / 09 / 24</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0924.jpg"></div><div class="caption-tag">寶寶殺來靜宜嚇爛</div></div></div>
-        <div class="page" style="--z: 350;"><div class="date-label">2025 / 09 / 29</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="0929.jpg"></div><div class="caption-tag">到光復當鏟子超人</div></div></div>
-        <div class="page" style="--z: 340;"><div class="date-label">2025 / 10 / 02</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1002.jpg"></div><div class="caption-tag">一起去洲際拋彩帶</div></div></div>
-        <div class="page" style="--z: 330;"><div class="date-label">2025 / 10 / 03</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1003.jpg"></div><div class="caption-tag">去台南玩啊啊啊啊</div></div></div>
-        <div class="page" style="--z: 320;"><div class="date-label">2025 / 10 / 11</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="1011.mp4" controls playsinline></video></div><div class="caption-tag">聽潮派鹿港芒果醬</div></div></div>
-        <div class="page" style="--z: 310;"><div class="date-label">2025 / 10 / 12</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1012.jpg"></div><div class="caption-tag">閃光燈壞掉我哭哭</div></div></div>
-        <div class="page" style="--z: 300;"><div class="date-label">2025 / 10 / 16</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="1016.mp4" controls playsinline></video></div><div class="caption-tag">跑了20家7-11買禮物</div></div></div>
-        <div class="page" style="--z: 290;"><div class="date-label">2025 / 10 / 24</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1024.jpg"></div><div class="caption-tag">我們半年惹啊啊啊啊</div></div></div>
-        <div class="page" style="--z: 280;"><div class="date-label">2025 / 11 / 29</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><video class="page-video" data-src="1129.mp4" controls playsinline></video></div><div class="caption-tag">抽到啾啾太扯啦</div></div></div>
-        <div class="page" style="--z: 270;"><div class="date-label">2025 / 12 / 24</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1224.jpg"></div><div class="caption-tag">第一個平安夜</div></div></div>
-        <div class="page" style="--z: 260;"><div class="date-label">2025 / 12 / 26</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1226.jpg"></div><div class="caption-tag">第一次拍拍貼機</div></div></div>
-        <div class="page" style="--z: 250;"><div class="date-label">2025 / 12 / 31</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="1231.jpg"></div><div class="caption-tag">第一次跟寶寶跨年</div></div></div>
-        <div class="page" style="--z: 240;"><div class="date-label">2026 / 01 / 18</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="20260118.jpg"></div><div class="caption-tag">陪寶寶一起做手作</div></div></div>
-        <div class="page" style="--z: 230;"><div class="date-label">2026 / 01 / 21</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="20260121.jpg"></div><div class="caption-tag">寶寶幫我慶生</div></div></div>
-        <div class="page" style="--z: 220;"><div class="date-label">2026 / 01 / 26</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="20250126.jpg"></div><div class="caption-tag">出隊惹好累好累</div></div></div>
-        <div class="page" style="--z: 210;"><div class="date-label">2026 / 01 / 29</div><div class="polaroid"><div class="media-container"><div class="scratch-overlay" onclick="reveal(this)"></div><img src="20260129.jpg"></div><div class="caption-tag">終於熬過去了載我回家</div></div></div>
+<body onclick="playM()">
+    <audio id="mus" loop preload="auto"><source src="五月天-為你寫下這首情歌.mp3"></audio>
+    <div class="book">
+        <div class="page" style="--z:300"><div class="date">2025 / 04 / 24</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="在一起.jpg"></div><div class="caption">這一天，我們在一起了 ❤️</div></div></div>
+        <div class="page" style="--z:290"><div class="date">2025 / 04 / 25</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="0425.jpg"></div><div class="caption">第一次牽手時你說<br>還是要再牽一下啊啊啊</div></div></div>
+        <div class="page" style="--z:280"><div class="date">2025 / 05 / 03</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="0503.jpg"></div><div class="caption">一起去高雄看 Trash</div></div></div>
+        <div class="page" style="--z:270"><div class="date">2025 / 05 / 08</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="0508.jpg"></div><div class="caption">送我恐龍<br>我開心到哭啊啊啊啊</div></div></div>
+        <div class="page" style="--z:260"><div class="date">2025 / 05 / 16</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="0516.jpg"></div><div class="caption">陪我去第二市場採訪</div></div></div>
+        <div class="page" style="--z:250"><div class="date">2025 / 05 / 20</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="0520.jpg"></div><div class="caption">第一個 520<br>偷偷送寶寶花</div></div></div>
+        <div class="page" style="--z:240"><div class="date">2025 / 06 / 14</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><video data-src="0614.mp4" playsinline></video></div><div class="caption">第一次陪我去大巨蛋工作<br>有人喝酒在睡覺ㄚ</div></div></div>
+        <div class="page" style="--z:230"><div class="date">2025 / 07 / 05</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><video data-src="0705.mp4" playsinline></video></div><div class="caption">第一次看五月天<br>完成我的夢想</div></div></div>
+        <div class="page" style="--z:220"><div class="date">2025 / 08 / 08</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="0808.jpg"></div><div class="caption">寶寶陪我去洲際工作</div></div></div>
+        <div class="page" style="--z:210"><div class="date">2025 / 08 / 15</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><video data-src="0815.mp4" playsinline></video></div><div class="caption">突擊新竹運動中心<br>終於突襲到了嘿嘿嘿</div></div></div>
+        <div class="page" style="--z:200"><div class="date">2025 / 08 / 17</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><video data-src="0817.mp4" playsinline></video></div><div class="caption">一起去大甲工作<br>超累的</div></div></div>
+        <div class="page" style="--z:190"><div class="date">2025 / 08 / 27</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><video data-src="0827.mp4" playsinline></video></div><div class="caption">跟好朋友們去宜蘭玩</div></div></div>
+        <div class="page" style="--z:180"><div class="date">2025 / 09 / 12</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="0912.jpg"></div><div class="caption">去練車，寶寶摔車<br>看 96 分鐘看到哭哭</div></div></div>
+        <div class="page" style="--z:170"><div class="date">2025 / 09 / 20</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><video data-src="0920.mp4" playsinline></video></div><div class="caption">寶寶一起陪我去<br>大甲拍熱音社</div></div></div>
+        <div class="page" style="--z:160"><div class="date">2025 / 09 / 24</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="0924.jpg"></div><div class="caption">寶寶殺來靜宜<br>嚇爛啊啊啊啊啊</div></div></div>
+        <div class="page" style="--z:150"><div class="date">2025 / 09 / 29</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="0929.jpg"></div><div class="caption">到光復當鏟子超人<br>超熱血的！！！</div></div></div>
+        <div class="page" style="--z:140"><div class="date">2025 / 10 / 02</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="1002.jpg"></div><div class="caption">一起去洲際拋彩帶</div></div></div>
+        <div class="page" style="--z:130"><div class="date">2025 / 10 / 03</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="1003.jpg"></div><div class="caption">去台南玩啊啊啊啊</div></div></div>
+        <div class="page" style="--z:120"><div class="date">2025 / 10 / 11</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><video data-src="1011.mp4" playsinline></video></div><div class="caption">聽潮派鹿港芒果醬<br>一直上電視</div></div></div>
+        <div class="page" style="--z:110"><div class="date">2025 / 10 / 12</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="1012.jpg"></div><div class="caption">我哭哭<br>閃光燈開不了</div></div></div>
+        <div class="page" style="--z:100"><div class="date">2025 / 10 / 16</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><video data-src="1016.mp4" playsinline></video></div><div class="caption">跑了20家7-11買到惹<br>寶寶很開心嘿嘿</div></div></div>
+        <div class="page" style="--z:90"><div class="date">2025 / 10 / 24</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="1024.jpg"></div><div class="caption">我們半年惹啊啊啊啊</div></div></div>
+        <div class="page" style="--z:80"><div class="date">2025 / 11 / 29</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><video data-src="1129.mp4" playsinline></video></div><div class="caption">抽到啾啾<br>會不會太扯啦</div></div></div>
+        <div class="page" style="--z:70"><div class="date">2025 / 12 / 24</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="1224.jpg"></div><div class="caption">跟寶寶的<br>第一個平安夜</div></div></div>
+        <div class="page" style="--z:60"><div class="date">2025 / 12 / 26</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="1226.jpg"></div><div class="caption">第一次拍拍貼機</div></div></div>
+        <div class="page" style="--z:50"><div class="date">2025 / 12 / 31</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="1231.jpg"></div><div class="caption">第一次跟寶寶跨年<br>好開心啊啊啊</div></div></div>
+        <div class="page" style="--z:40"><div class="date">2026 / 01 / 18</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="20260118.jpg"></div><div class="caption">陪寶寶一起做手作</div></div></div>
+        <div class="page" style="--z:30"><div class="date">2026 / 01 / 21</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="20260121.jpg"></div><div class="caption">寶寶幫我慶生啊啊啊<br>還有卡片和蛋糕</div></div></div>
+        <div class="page" style="--z:20"><div class="date">2026 / 01 / 26</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="20250126.jpg"></div><div class="caption">出隊惹<br>好累好累</div></div></div>
+        <div class="page" style="--z:15"><div class="date">2026 / 01 / 29</div><div class="polaroid"><div class="media-box"><div class="scratch" onclick="rev(this)">TAP ✨</div><img data-src="20260129.jpg"></div><div class="caption">終於熬過去了<br>寶寶載我回家嘿嘿</div></div></div>
 
-        <div class="page" style="--z: 10;" id="day-counter-page">
-            <div class="date-label">Future</div>
-            <div class="day-counter-card"><p>我們已經在一起</p><span id="days-val" class="day-number">0</span><p>DAYS</p></div>
-        </div>
-        <div class="page" style="--z: 1;">
-            <div id="letter"><p style="font-weight: 700; color: var(--primary); font-size: 24px;">致我的 100 分女孩。</p><p>我愛妳，曾☁️💗</p></div>
-        </div>
-        <div class="nav-controls"><button class="btn" id="prevBtn" onclick="prevPage()" disabled>PREV</button><button class="btn" id="nextBtn" onclick="nextPage()">NEXT</button></div>
+        <div class="page" style="--z:10" id="dp"><div class="day-card"><p>我們已經在一起</p><span id="dv" class="day-num">0</span><p>DAYS</p></div></div>
+        <div class="page" style="--z:1"><div style="text-align:center;font-family:'Noto Serif TC';padding:30px;line-height:2;font-size:20px;color:var(--primary)">「雖然我可能不是妳喜歡的帥哥，但我會用盡全力對妳好的。未來我們一定會一起創造更多美好的故事！」<br><br><strong>我愛妳，曾☁️💗</strong></div></div>
+        
+        <div class="nav"><button class="btn" onclick="prev()">PREV</button><button class="btn" onclick="next()">NEXT</button></div>
     </div>
-
     <script>
         let curr = 0; const pages = document.querySelectorAll('.page');
-        const music = document.getElementById('music-player');
-        let musicStarted = false;
-        window.onload = () => { loadVideo(0); wakeUpAudio(); };
-        function reveal(overlay) { overlay.classList.add('revealed'); wakeUpAudio(); }
-        function wakeUpAudio() { if (!musicStarted || music.paused) { music.play().catch(()=>{}); musicStarted = true; } }
-        function loadVideo(index) {
-            const v = pages[index].querySelector('.page-video');
-            if(v) { if(!v.src || v.src==="") { v.src = v.getAttribute('data-src'); v.load(); } v.onplay = () => music.pause(); v.onended = v.onpause = wakeUpAudio; }
+        const mus = document.getElementById('mus');
+        function playM() { if(mus.paused) mus.play().catch(()=>{}); }
+        function rev(el) { el.classList.add('hide'); playM(); }
+        function load(i) {
+            const p = pages[i]; const m = p.querySelector('img, video');
+            if(m && !m.src) m.src = m.dataset.src;
+            if(m && m.tagName==='VIDEO') { m.controls=true; m.onplay=()=>mus.pause(); m.onpause=()=>playM(); }
         }
-        function nextPage() { if (curr < pages.length - 1) { const v = pages[curr].querySelector('video'); if(v) v.pause(); pages[curr].classList.add('flipped'); curr++; loadVideo(curr); updateButtons(); wakeUpAudio(); if (pages[curr].id === "day-counter-page") runAnimateDays(); if (curr === pages.length - 1) showLetter(); } }
-        function prevPage() { if (curr > 0) { const v = pages[curr].querySelector('video'); if(v) v.pause(); curr--; pages[curr].classList.remove('flipped'); loadVideo(curr); updateButtons(); wakeUpAudio(); if (pages[curr].id === "day-counter-page") runAnimateDays(); } }
-        function updateButtons() { document.getElementById('prevBtn').disabled = (curr === 0); document.getElementById('nextBtn').disabled = (curr === pages.length - 1); }
-        function runAnimateDays() {
-            const targetEl = document.getElementById('days-val');
-            const targetDays = Math.floor((new Date().getTime() - new Date("2025/04/24").getTime()) / (1000 * 3600 * 24));
-            let count = 0; const timer = setInterval(() => { count += Math.ceil(targetDays/40); if (count >= targetDays) { targetEl.innerText = targetDays; clearInterval(timer); } else targetEl.innerText = count; }, 30);
+        window.onload = () => { load(0); playM(); };
+        function next() {
+            if(curr < pages.length-1) {
+                const v = pages[curr].querySelector('video'); if(v) v.pause();
+                pages[curr].classList.add('flipped'); curr++; load(curr);
+                if(pages[curr].id === 'dp') runD();
+            }
         }
-        function showLetter() { const lt = document.getElementById('letter'); lt.style.display = 'block'; setTimeout(()=>lt.style.opacity='1',10); lt.querySelectorAll('p').forEach((p,i)=>setTimeout(()=>p.classList.add('show-p'),i * 1800)); }
-        window.addEventListener('keydown', (e) => { if (e.key === "ArrowRight" || e.key === " ") nextPage(); else if (e.key === "ArrowLeft") prevPage(); });
+        function prev() {
+            if(curr > 0) {
+                const v = pages[curr].querySelector('video'); if(v) v.pause();
+                curr--; pages[curr].classList.remove('flipped');
+            }
+        }
+        function runD() {
+            const target = Math.floor((new Date()-new Date("2025/04/24"))/86400000);
+            let c = 0; const el = document.getElementById('dv');
+            const t = setInterval(()=>{ c+=Math.ceil(target/30); if(c>=target){ el.innerText=target; clearInterval(t); }else el.innerText=c; }, 40);
+        }
     </script>
 </body>
 </html>
