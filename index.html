@@ -13,7 +13,7 @@
         #login-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: 0.8s; }
         .login-box { text-align: center; background: white; padding: 50px 30px; border-radius: 40px; box-shadow: 0 25px 60px rgba(0,0,0,0.1); width: 85%; max-width: 380px; }
         #pwd { padding: 15px; font-size: 20px; text-align: center; border: none; border-bottom: 2.5px solid #eee; outline: none; width: 100%; letter-spacing: 8px; margin-top: 20px; }
-        .login-btn { margin-top: 30px; background: var(--primary); color: white; border: none; padding: 16px 50px; border-radius: 50px; cursor: pointer; font-size: 18px; width: 100%; transition: 0.3s; }
+        .login-btn { margin-top: 30px; background: var(--primary); color: white; border: none; padding: 16px 50px; border-radius: 50px; cursor: pointer; font-size: 18px; width: 100%; }
 
         .book { position: relative; width: 100%; height: 100vh; perspective: 2500px; display: none; }
         .page { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; background: var(--bg); transform-origin: left center; transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.8s ease; backface-visibility: hidden; z-index: var(--z); }
@@ -37,7 +37,7 @@
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .close-video { position: absolute; top: 40px; right: 20px; color: white; font-size: 40px; cursor: pointer; z-index: 9501; width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; }
 
-        .jump-btn { background: var(--soft-red) !important; color: white !important; border: none !important; font-size: 1.2rem !important; padding: 15px 30px !important; text-decoration: none; display: inline-block; border-radius: 50px; margin-top: 20px; box-shadow: 0 10px 25px rgba(230,57,70,0.3); }
+        .jump-btn { background: var(--soft-red) !important; color: white !important; border: none !important; font-size: 1.2rem !important; padding: 15px 30px !important; text-decoration: none; display: inline-block; border-radius: 50px; margin-top: 20px; box-shadow: 0 10px 25px rgba(230,57,70,0.3); font-weight: bold; }
 
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         .heart-pulse { animation: pulse 2s infinite ease-in-out; }
@@ -95,6 +95,8 @@
         let bookStarted = false;
 
         window.onload = () => {
+            // 強制清除登入狀態，保證重整回密碼層
+            sessionStorage.removeItem('unlocked');
             document.getElementById('login-overlay').style.display = 'flex';
             document.getElementById('pwd').value = "";
             m1.load();
@@ -105,6 +107,7 @@
 
         function checkPwd() {
             if (document.getElementById('pwd').value === '20250424') {
+                sessionStorage.setItem('unlocked', 'true');
                 m1.play().catch(()=>{});
                 document.getElementById('login-overlay').style.opacity = '0';
                 setTimeout(() => {
@@ -129,7 +132,7 @@
         function updateButtons() { document.getElementById('prevBtn').disabled = (curr === 0); document.getElementById('nextBtn').disabled = (curr === pages.length - 1 || pages[curr].id === "trigger-page"); }
         
         function playSurpriseVideo() {
-            m1.pause(); // YT 開始時背景音徹底暫停
+            m1.pause(); // YT 播時徹底停背景音
             document.getElementById('video-wrapper').innerHTML = `<iframe id="yt-frame" src="https://www.youtube.com/embed/e4bQwcrrN9A?autoplay=1&enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
             document.getElementById('final-video-container').style.display = 'flex';
             setTimeout(()=>document.getElementById('final-video-container').style.opacity = '1', 50);
@@ -143,7 +146,7 @@
                 document.getElementById('flower-main').style.display = "none";
                 document.getElementById('trigger-text').style.display = "none";
                 document.getElementById('after-video-ui').style.display = "block";
-                // 關閉後換五月天且秒播
+                // 換成五月天
                 m1.src = "五月天-為你寫下這首情歌.mp3"; m1.load(); m1.play().catch(()=>{});
             }, 600);
         }
